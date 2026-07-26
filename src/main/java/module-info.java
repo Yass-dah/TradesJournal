@@ -5,4 +5,6 @@ module fx.tradesjournal {
 
     opens fx.tradesjournal to javafx.fxml;
     exports fx.tradesjournal;
+    exports fx.tradesjournal.controllers;
+    opens fx.tradesjournal.controllers to javafx.fxml;
 }
