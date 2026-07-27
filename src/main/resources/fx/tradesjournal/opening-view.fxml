@@ -46,7 +46,7 @@
                     </font>
                 </Label>
                 <Separator layoutX="14.0" layoutY="58.0" prefHeight="1.0" prefWidth="403.0" style="-fx-opacity: 0.2;" />
-                <ComboBox layoutX="30.0" layoutY="100.0" prefHeight="30.0" prefWidth="366.0" promptText="Select Journal" style="-fx-background-color: #ffffff; -fx-border-color: #fbfbfb; -fx-border-radius: 1; -fx-text-fill: white;"/>
+                <ComboBox fx:id="journals" layoutX="30.0" layoutY="100.0" prefHeight="30.0" prefWidth="366.0" promptText="Select Journal" style="-fx-background-color: #ffffff; -fx-border-color: #fbfbfb; -fx-border-radius: 1; -fx-text-fill: white;"/>
                 <Button layoutX="180.0" layoutY="160.0" mnemonicParsing="false" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="continue">
                     <font>
                         <Font name="System" size="12.0" />
