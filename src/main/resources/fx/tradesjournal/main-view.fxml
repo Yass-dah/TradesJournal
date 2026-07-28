@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.TradesController">
     <children>
         <HBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="900.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 1 0;" VBox.vgrow="NEVER">
             <children>
@@ -41,12 +41,22 @@
             <items>
                 <AnchorPane prefHeight="550.0" prefWidth="530.0" style="-fx-background-color: #1e1e1e;">
                     <children>
-                        <Label alignment="CENTER" layoutX="14.0" layoutY="12.0" text="Trades" textFill="#ffffff">
-                            <font>
-                                <Font name="System Bold" size="18.0" />
-                            </font>
-                        </Label>
-                        <TreeTableView layoutX="14.0" layoutY="45.0" prefHeight="480.0" prefWidth="510.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="45.0">
+                        <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="10.0" prefHeight="32.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0">
+                            <children>
+                                <Label text="Trades" textFill="#ffffff">
+                                    <font>
+                                        <Font name="System Bold" size="18.0" />
+                                    </font>
+                                </Label>
+                                <Pane HBox.hgrow="ALWAYS" />
+                                <Button mnemonicParsing="false" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="+ Add Trade">
+                                    <font>
+                                        <Font name="System Bold" size="12.0" />
+                                    </font>
+                                </Button>
+                            </children>
+                        </HBox>
+                        <TreeTableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="510.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
                             <columns>
                                 <TreeTableColumn prefWidth="75.0" text="Symbol" />
                                 <TreeTableColumn prefWidth="60.0" text="Size" />

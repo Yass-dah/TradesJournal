@@ -4,7 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PersistenceManager {
+public class FilePersistenceManager {
     private static final String dataPath = "data";
 
     public static File dataFolderExists(){
