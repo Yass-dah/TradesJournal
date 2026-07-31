@@ -7,21 +7,25 @@ public class Journal {
 
     private double initCapital = 0;
 
+    private String currency;
+
     private double actualCapital;
 
     private ArrayList<Trade> trades;
 
     public Journal() {}
 
-    public Journal(String name, double initCapital) {
+    public Journal(String name, double initCapital, String currency) {
         this.name = name;
+        this.currency = currency;
         this.initCapital = initCapital;
         this.actualCapital = initCapital;
     }
 
-    public Journal(String name, double initCapital, ArrayList<Trade> trades) {
+    public Journal(String name, double initCapital, String currency, ArrayList<Trade> trades) {
         this.name = name;
         this.initCapital = initCapital;
+        this.currency = currency;
         this.trades = trades;
         this.actualCapital = initCapital;
     }
@@ -32,6 +36,10 @@ public class Journal {
 
     public double getInitCapital() {
         return initCapital;
+    }
+
+    public String getCurrency() {
+        return currency;
     }
 
     public double getActualCapital() {

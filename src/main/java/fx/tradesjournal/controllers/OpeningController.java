@@ -36,6 +36,9 @@ public class OpeningController {
     private TextField initialCapitalField;
 
     @FXML
+    private TextField currencyField;
+
+    @FXML
     private void handleClose() {
         Stage stage = (Stage)titleBar.getScene().getWindow();
         stage.close();
@@ -62,6 +65,7 @@ public class OpeningController {
     private void showSelectMode() {
         journalNameField.clear();
         initialCapitalField.clear();
+        currencyField.clear();
 
         createBox.setVisible(false);
         createBox.setManaged(false);
