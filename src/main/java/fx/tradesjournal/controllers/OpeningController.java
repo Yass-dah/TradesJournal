@@ -1,5 +1,6 @@
 package fx.tradesjournal.controllers;
 
+import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,7 +11,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
+import java.io.IOException;
+
 public class OpeningController {
+    private FxApplication app;
+
     @FXML
     private HBox titleBar;
 
@@ -37,6 +42,11 @@ public class OpeningController {
 
     @FXML
     private TextField currencyField;
+
+    // Setters
+    public void setApp(FxApplication app) {
+        this.app = app;
+    }
 
     @FXML
     private void handleClose() {
@@ -79,6 +89,10 @@ public class OpeningController {
 
     @FXML
     private void createJournal(){
-
+        try{
+            app.journal();
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 }
