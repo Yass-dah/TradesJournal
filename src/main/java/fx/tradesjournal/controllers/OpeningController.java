@@ -17,6 +17,9 @@ public class OpeningController {
     private FxApplication app;
 
     @FXML
+    private VBox root;
+
+    @FXML
     private HBox titleBar;
 
     @FXML
@@ -43,6 +46,9 @@ public class OpeningController {
     @FXML
     private TextField currencyField;
 
+    @FXML
+    private TextField leverageField;
+
     // Setters
     public void setApp(FxApplication app) {
         this.app = app;
@@ -65,6 +71,7 @@ public class OpeningController {
         selectBox.setManaged(false);
         newJournalBtn.setVisible(false);
 
+        root.getScene().getWindow().setHeight(322.0);
         createBox.setVisible(true);
         createBox.setManaged(true);
 
@@ -76,7 +83,9 @@ public class OpeningController {
         journalNameField.clear();
         initialCapitalField.clear();
         currencyField.clear();
+        leverageField.clear();
 
+        root.getScene().getWindow().setHeight(238.0);
         createBox.setVisible(false);
         createBox.setManaged(false);
 
@@ -89,6 +98,15 @@ public class OpeningController {
 
     @FXML
     private void createJournal(){
+        try{
+            app.journal();
+        } catch(IOException e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void submitJournal(){
         try{
             app.journal();
         } catch(IOException e){

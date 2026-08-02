@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="275.0" prefWidth="426.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.OpeningController">
+<VBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="238.0" prefWidth="426.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.OpeningController">
     <children>
         <HBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="426.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 1 0; -fx-cursor: move;">
             <children>
@@ -55,7 +55,7 @@
                 <VBox fx:id="selectBox" alignment="TOP_CENTER" layoutX="14.0" layoutY="65.0" prefWidth="398.0" spacing="20.0">
                     <children>
                         <ComboBox fx:id="journals" prefHeight="32.0" prefWidth="366.0" promptText="Select Journal" style="-fx-background-color: #ffffff; -fx-border-color: #fbfbfb; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand"/>
-                        <Button mnemonicParsing="false" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="continue">
+                        <Button mnemonicParsing="false" onAction="#submitJournal" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="continue">
                             <font>
                                 <Font name="System Bold" size="12.0" />
                             </font>
@@ -70,6 +70,7 @@
                         <TextField fx:id="journalNameField" prefHeight="30.0" prefWidth="366.0" promptText="Journal Name (e.g. Crypto Trading)" style="-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
                         <TextField fx:id="initialCapitalField" prefHeight="30.0" prefWidth="366.0" promptText="Initial Capital (e.g. 1000)" style="-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
                         <TextField fx:id="currencyField" prefHeight="30.0" prefWidth="366.0" promptText="Currency (e.g. EUR)" style="-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                        <TextField fx:id="leverageField" prefHeight="30.0" prefWidth="366.0" promptText="Leverage (e.g. 1:500)" style="-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
                         <HBox alignment="CENTER" spacing="15.0">
                             <children>
                                 <Button mnemonicParsing="false" onAction="#showSelectMode" style="-fx-background-color: transparent; -fx-text-fill: #a0a0a0; -fx-cursor: hand;" text="cancel" />
