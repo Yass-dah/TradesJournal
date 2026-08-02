@@ -1,6 +1,8 @@
 package fx.tradesjournal.controllers;
 
 import fx.tradesjournal.FxApplication;
+import fx.tradesjournal.model.Currency;
+import fx.tradesjournal.model.Leverage;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,10 +46,10 @@ public class OpeningController {
     private TextField initialCapitalField;
 
     @FXML
-    private TextField currencyField;
+    private ComboBox<Currency> currency;
 
     @FXML
-    private TextField leverageField;
+    private ComboBox<Leverage> leverage;
 
     // Setters
     public void setApp(FxApplication app) {
@@ -63,6 +65,8 @@ public class OpeningController {
     @FXML
     public void initialize() {
         journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
+        currency.getItems().addAll(Currency.values());
+        leverage.getItems().addAll(Leverage.values());
     }
 
     @FXML
@@ -71,7 +75,7 @@ public class OpeningController {
         selectBox.setManaged(false);
         newJournalBtn.setVisible(false);
 
-        root.getScene().getWindow().setHeight(322.0);
+        root.getScene().getWindow().setHeight(328.0);
         createBox.setVisible(true);
         createBox.setManaged(true);
 
@@ -82,10 +86,8 @@ public class OpeningController {
     private void showSelectMode() {
         journalNameField.clear();
         initialCapitalField.clear();
-        currencyField.clear();
-        leverageField.clear();
 
-        root.getScene().getWindow().setHeight(238.0);
+        root.getScene().getWindow().setHeight(232.0);
         createBox.setVisible(false);
         createBox.setManaged(false);
 

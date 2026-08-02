@@ -37,9 +37,9 @@
                 </Button>
             </children>
         </HBox>
-        <SplitPane dividerPositions="0.6" focusTraversable="true" style="-fx-background-color: #1e1e1e; -fx-box-border: transparent;" VBox.vgrow="ALWAYS">
+        <SplitPane dividerPositions="0.7" focusTraversable="true" style="-fx-background-color: #1e1e1e; -fx-box-border: transparent;" VBox.vgrow="ALWAYS">
             <items>
-                <AnchorPane prefHeight="550.0" prefWidth="530.0" style="-fx-background-color: #1e1e1e;">
+                <AnchorPane minWidth="400.0" prefHeight="550.0" prefWidth="630.0" style="-fx-background-color: #1e1e1e;">
                     <children>
                         <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="10.0" prefHeight="32.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0">
                             <children>
@@ -56,7 +56,7 @@
                                 </Button>
                             </children>
                         </HBox>
-                        <TreeTableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="510.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
+                        <TreeTableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
                             <columns>
                                 <TreeTableColumn prefWidth="75.0" text="Symbol" />
                                 <TreeTableColumn prefWidth="60.0" text="Size" />
@@ -72,7 +72,7 @@
                         </TreeTableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane prefHeight="550.0" prefWidth="350.0" style="-fx-background-color: #1e1e1e;">
+                <AnchorPane minWidth="250.0" prefHeight="550.0" prefWidth="270.0" style="-fx-background-color: #1e1e1e;">
                     <children>
                         <Label alignment="CENTER" layoutX="14.0" layoutY="12.0" text="Stats" textFill="#ffffff">
                             <font>
@@ -80,26 +80,30 @@
                             </font>
                         </Label>
                         <Label layoutX="14.0" layoutY="50.0" text="Initial Capital:" textFill="#a0a0a0" />
-                        <Label layoutX="160.0" layoutY="50.0" text="1000 $" textFill="#ffffff">
+                        <Label layoutX="140.0" layoutY="50.0" text="1000 $" textFill="#ffffff">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="75.0" text="P/L %:" textFill="#a0a0a0" />
-                        <Label layoutX="160.0" layoutY="75.0" text="+25%" textFill="#28a745">
+                        <Label layoutX="140.0" layoutY="75.0" text="+25%" textFill="#28a745">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="100.0" text="Actual Capital:" textFill="#a0a0a0" />
-                        <Label layoutX="160.0" layoutY="100.0" text="1250 $" textFill="#ffffff">
+                        <Label layoutX="140.0" layoutY="100.0" text="1250 $" textFill="#ffffff">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="125.0" text="Pips:" textFill="#a0a0a0" />
-                        <Label layoutX="160.0" layoutY="125.0" text="+240" textFill="#28a745">
+                        <Label layoutX="140.0" layoutY="125.0" text="+240" textFill="#28a745">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
-                        <Separator layoutX="14.0" layoutY="160.0" prefWidth="320.0" style="-fx-opacity: 0.2;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-                        <Label layoutX="14.0" layoutY="180.0" text="From:" textFill="#a0a0a0" />
-                        <DatePicker layoutX="14.0" layoutY="200.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
-                        <Label layoutX="180.0" layoutY="180.0" text="To:" textFill="#a0a0a0" />
-                        <DatePicker layoutX="180.0" layoutY="200.0" prefHeight="30.0" prefWidth="150.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                        <Separator layoutX="14.0" layoutY="160.0" prefWidth="240.0" style="-fx-opacity: 0.2;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+                        <VBox layoutX="14.0" layoutY="180.0" spacing="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                            <children>
+                                <Label text="From:" textFill="#a0a0a0" />
+                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                                <Label text="To:" textFill="#a0a0a0" />
+                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                            </children>
+                        </VBox>
                     </children>
                 </AnchorPane>
             </items>
