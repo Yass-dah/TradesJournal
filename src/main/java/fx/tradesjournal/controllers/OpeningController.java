@@ -46,14 +46,55 @@ public class OpeningController {
     private TextField initialCapitalField;
 
     @FXML
-    private ComboBox<Currency> currency;
+    private ComboBox<Currency> currencyField;
 
     @FXML
-    private ComboBox<Leverage> leverage;
+    private ComboBox<Leverage> leverageField;
 
     // Setters
     public void setApp(FxApplication app) {
         this.app = app;
+    }
+
+    // Checkers
+    private boolean checkJournalFields(String name, String capital, Currency currency, Leverage leverage){
+        if (name == null || name.trim().isEmpty()) {
+            journalNameField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
+            journalNameField.setPromptText("Journal's name can't be empty.");
+            return false;
+        }
+
+        if (capital == null || capital.trim().isEmpty()) {
+            initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
+            initialCapitalField.setPromptText("Capital can't be empty.");
+            return false;
+        }
+
+        if (currency == null) {
+            currencyField.setStyle("-fx-background-color: #ff6363; -fx-border-color: red; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand");
+            return false;
+        }
+
+        if(leverage == null){
+            leverageField.setStyle("-fx-background-color: #ff6363; -fx-border-color: red; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand");
+            return false;
+        }
+
+        try {
+            double capitalSize = Double.parseDouble(capital.trim());
+            if (capitalSize <= 0) {
+                initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
+                initialCapitalField.clear();
+                initialCapitalField.setPromptText("Capital have to be > 0.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
+            initialCapitalField.clear();
+            initialCapitalField.setPromptText("Capital have to be a valid number (e.g. 1000 or 1500.50).");
+            return false;
+        }
+        return true;
     }
 
     @FXML
@@ -65,8 +106,8 @@ public class OpeningController {
     @FXML
     public void initialize() {
         journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
-        currency.getItems().addAll(Currency.values());
-        leverage.getItems().addAll(Leverage.values());
+        currencyField.getItems().addAll(Currency.values());
+        leverageField.getItems().addAll(Leverage.values());
     }
 
     @FXML
@@ -102,8 +143,10 @@ public class OpeningController {
 
     @FXML
     private void createJournal(){
-        FilePersistenceManager.createJournalFile(journalNameField.getText(), initialCapitalField.getText(), currency.getValue(), leverage.getValue());
-        showSelectMode();
+        if(checkJournalFields(journalNameField.getText(),initialCapitalField.getText(),currencyField.getValue(),leverageField.getValue())) {
+            FilePersistenceManager.createJournalFile(journalNameField.getText(), initialCapitalField.getText(), currencyField.getValue(), leverageField.getValue());
+            showSelectMode();
+        }
     }
 
     @FXML
