@@ -18,6 +18,9 @@ public class FilePersistenceManager {
         File folder = dataFolderExists();
         File file = new File(folder, journal.getName() + ".json");
 
+        if(file.exists()) {
+            return null;
+        }
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(journal, writer);
             return file;

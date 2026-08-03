@@ -14,6 +14,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
 
+import java.io.File;
 import java.io.IOException;
 
 public class OpeningController {
@@ -130,6 +131,8 @@ public class OpeningController {
     private void showSelectMode() {
         journalNameField.clear();
         initialCapitalField.clear();
+        currencyField.getItems().clear();
+        leverageField.getItems().clear();
         journals.getItems().clear();
         journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
 
@@ -148,7 +151,11 @@ public class OpeningController {
     private void createJournal(){
         if(checkJournalFields(journalNameField.getText(),initialCapitalField.getText(),currencyField.getValue(),leverageField.getValue())) {
             Journal journal = new Journal(journalNameField.getText(), Double.parseDouble(initialCapitalField.getText().trim()), currencyField.getValue(), leverageField.getValue());
-            FilePersistenceManager.createJournalFile(journal);
+            File aux = FilePersistenceManager.createJournalFile(journal);
+            if(aux == null) {
+                displayError(journalNameField, "This name is already used for another journal.");
+                return;
+            }
             showSelectMode();
         }
     }

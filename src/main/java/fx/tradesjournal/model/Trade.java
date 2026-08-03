@@ -1,7 +1,5 @@
 package fx.tradesjournal.model;
 
-import java.time.LocalDateTime;
-
 public class Trade {
     public enum Action { LONG, SHORT }
     public enum Status { OPEN, CLOSED }
