@@ -86,6 +86,8 @@ public class OpeningController {
     private void showSelectMode() {
         journalNameField.clear();
         initialCapitalField.clear();
+        journals.getItems().clear();
+        journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
 
         root.getScene().getWindow().setHeight(232.0);
         createBox.setVisible(false);
@@ -100,11 +102,8 @@ public class OpeningController {
 
     @FXML
     private void createJournal(){
-        try{
-            app.journal();
-        } catch(IOException e){
-            System.out.println(e.getMessage());
-        }
+        FilePersistenceManager.createJournalFile(journalNameField.getText(), initialCapitalField.getText(), currency.getValue(), leverage.getValue());
+        showSelectMode();
     }
 
     @FXML

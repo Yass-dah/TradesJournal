@@ -1,11 +1,27 @@
 package fx.tradesjournal.persistence;
 
+import fx.tradesjournal.model.Currency;
+import fx.tradesjournal.model.Leverage;
+
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilePersistenceManager {
     private static final String dataPath = "data";
+
+    public static boolean createJournalFile(String name, String capital, Currency currency, Leverage leverage) {
+        File folder = dataFolderExists();
+        File file = new File(folder, name + ".json");
+        boolean result = false;
+        try{
+            result = file.createNewFile();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
 
     public static File dataFolderExists(){
         File folder = new File(dataPath);
