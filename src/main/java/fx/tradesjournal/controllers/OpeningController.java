@@ -56,17 +56,23 @@ public class OpeningController {
         this.app = app;
     }
 
+    // Error triggers
+    private void displayError(TextField tf, String error){
+        if(tf == null) return;
+        tf.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
+        tf.clear();
+        tf.setPromptText(error);
+    }
+
     // Checkers
     private boolean checkJournalFields(String name, String capital, Currency currency, Leverage leverage){
         if (name == null || name.trim().isEmpty()) {
-            journalNameField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
-            journalNameField.setPromptText("Journal's name can't be empty.");
+            displayError(journalNameField, "Journal's name can't be empty.");
             return false;
         }
 
         if (capital == null || capital.trim().isEmpty()) {
-            initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
-            initialCapitalField.setPromptText("Capital can't be empty.");
+            displayError(initialCapitalField, "Initial capital can't be empty.");
             return false;
         }
 
@@ -83,15 +89,11 @@ public class OpeningController {
         try {
             double capitalSize = Double.parseDouble(capital.trim());
             if (capitalSize <= 0) {
-                initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
-                initialCapitalField.clear();
-                initialCapitalField.setPromptText("Capital have to be > 0.");
+                displayError(initialCapitalField, "Initial capital have to be > 0.");
                 return false;
             }
         } catch (NumberFormatException e) {
-            initialCapitalField.setStyle("-fx-background-color: #2d2d2d; -fx-text-fill: white; -fx-border-color: red; -fx-border-radius: 3; -fx-prompt-text-fill: #ff4b4b;");
-            initialCapitalField.clear();
-            initialCapitalField.setPromptText("Capital have to be a valid number (e.g. 1000 or 1500.50).");
+            displayError(initialCapitalField, "Initial capital have to be a valid number (e.g. 1000 or 1500.50).");
             return false;
         }
         return true;
