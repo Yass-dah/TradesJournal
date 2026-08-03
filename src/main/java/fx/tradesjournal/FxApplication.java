@@ -1,12 +1,16 @@
 package fx.tradesjournal;
 
 import fx.tradesjournal.controllers.OpeningController;
+import fx.tradesjournal.controllers.TradesController;
+import fx.tradesjournal.model.Journal;
+import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
 import java.io.IOException;
 
 public class FxApplication extends Application {
@@ -25,9 +29,11 @@ public class FxApplication extends Application {
         primaryStage.show();
     }
 
-    public void journal() throws IOException {
+    public void journal(String journal) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FxApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        TradesController tradesController = fxmlLoader.getController();
+        tradesController.setJournal(FilePersistenceManager.loadJournal(journal));
         primaryStage.setTitle("TradesJournal");
         primaryStage.setScene(scene);
         primaryStage.show();

@@ -16,8 +16,8 @@ public class Trade {
     private double stopLoss;
     private double takeProfit;
 
-    private LocalDateTime openDateTime;
-    private LocalDateTime closeDateTime;
+    private String openDateTime;
+    private String closeDateTime;
 
     private double fees;
     private Status status;
@@ -69,11 +69,11 @@ public class Trade {
         return takeProfit;
     }
 
-    public LocalDateTime getOpenDateTime() {
+    public String getOpenDateTime() {
         return openDateTime;
     }
 
-    public LocalDateTime getCloseDateTime() {
+    public String getCloseDateTime() {
         return closeDateTime;
     }
 

@@ -2,6 +2,7 @@ package fx.tradesjournal.controllers;
 
 import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Currency;
+import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Leverage;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.fxml.FXML;
@@ -146,17 +147,20 @@ public class OpeningController {
     @FXML
     private void createJournal(){
         if(checkJournalFields(journalNameField.getText(),initialCapitalField.getText(),currencyField.getValue(),leverageField.getValue())) {
-            FilePersistenceManager.createJournalFile(journalNameField.getText(), initialCapitalField.getText(), currencyField.getValue(), leverageField.getValue());
+            Journal journal = new Journal(journalNameField.getText(), Double.parseDouble(initialCapitalField.getText().trim()), currencyField.getValue(), leverageField.getValue());
+            FilePersistenceManager.createJournalFile(journal);
             showSelectMode();
         }
     }
 
     @FXML
     private void submitJournal(){
-        try{
-            app.journal();
-        } catch(IOException e){
-            System.out.println(e.getMessage());
-        }
+        if(journals.getValue() != null) {
+            try{
+                app.journal(journals.getValue());
+            } catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+        } else journals.setStyle("-fx-background-color: #ff6363; -fx-border-color: red; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand");
     }
 }

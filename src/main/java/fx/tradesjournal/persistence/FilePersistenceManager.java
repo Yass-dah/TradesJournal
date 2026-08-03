@@ -1,26 +1,46 @@
 package fx.tradesjournal.persistence;
 
-import fx.tradesjournal.model.Currency;
-import fx.tradesjournal.model.Leverage;
+import com.google.gson.Gson;
+import fx.tradesjournal.model.Journal;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FilePersistenceManager {
     private static final String dataPath = "data";
+    private static final Gson gson = new Gson();
 
-    public static boolean createJournalFile(String name, String capital, Currency currency, Leverage leverage) {
+    public static File createJournalFile(Journal journal) {
         File folder = dataFolderExists();
-        File file = new File(folder, name + ".json");
-        boolean result = false;
-        try{
-            result = file.createNewFile();
+        File file = new File(folder, journal.getName() + ".json");
+
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(journal, writer);
+            return file;
         } catch (IOException e) {
             System.out.println(e.getMessage());
+            return null;
         }
-        return result;
+    }
+
+    public static Journal loadJournal(String journalName){
+        File file = new File(dataFolderExists(), journalName + ".json");
+
+        if (!file.exists()) {
+            System.out.println("Error: can't find file " + file.getPath());
+            return null;
+        }
+
+        try (FileReader reader = new FileReader(file)) {
+            return gson.fromJson(reader, Journal.class);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 
     public static File dataFolderExists(){

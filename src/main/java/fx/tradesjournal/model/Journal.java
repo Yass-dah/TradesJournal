@@ -7,7 +7,9 @@ public class Journal {
 
     private double initCapital = 0;
 
-    private String currency;
+    private Currency currency;
+
+    private Leverage leverage;
 
     private double actualCapital;
 
@@ -15,17 +17,19 @@ public class Journal {
 
     public Journal() {}
 
-    public Journal(String name, double initCapital, String currency) {
+    public Journal(String name, double initCapital, Currency currency, Leverage leverage) {
         this.name = name;
         this.currency = currency;
+        this.leverage = leverage;
         this.initCapital = initCapital;
         this.actualCapital = initCapital;
     }
 
-    public Journal(String name, double initCapital, String currency, ArrayList<Trade> trades) {
+    public Journal(String name, double initCapital, Currency currency, Leverage leverage, ArrayList<Trade> trades) {
         this.name = name;
         this.initCapital = initCapital;
         this.currency = currency;
+        this.leverage = leverage;
         this.trades = trades;
         this.actualCapital = initCapital;
     }
@@ -38,8 +42,12 @@ public class Journal {
         return initCapital;
     }
 
-    public String getCurrency() {
+    public Currency getCurrency() {
         return currency;
+    }
+
+    public Leverage getLeverage() {
+        return leverage;
     }
 
     public double getActualCapital() {
