@@ -14,11 +14,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.TradesController">
+<VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.JournalController">
     <children>
         <HBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="900.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 1 0;" VBox.vgrow="NEVER">
             <children>
-                <Label text="TradesJournal" textFill="#cccccc">
+                <Label text="TradesJournal - Journal" textFill="#cccccc">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
@@ -49,7 +49,7 @@
                                     </font>
                                 </Label>
                                 <Pane HBox.hgrow="ALWAYS" />
-                                <Button mnemonicParsing="false" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="+ Add Trade">
+                                <Button mnemonicParsing="false" onAction="#handleAddTrade" style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;" text="+ Add Trade">
                                     <font>
                                         <Font name="System Bold" size="12.0" />
                                     </font>
@@ -80,7 +80,7 @@
                             </font>
                         </Label>
                         <Label layoutX="14.0" layoutY="50.0" text="Initial Capital:" textFill="#a0a0a0" />
-                        <Label layoutX="140.0" layoutY="50.0" text="1000 $" textFill="#ffffff">
+                        <Label fx:id="initialCapital" layoutX="140.0" layoutY="50.0" text="1000 $" textFill="#ffffff">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="75.0" text="P/L %:" textFill="#a0a0a0" />
@@ -88,7 +88,7 @@
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="100.0" text="Actual Capital:" textFill="#a0a0a0" />
-                        <Label layoutX="140.0" layoutY="100.0" text="1250 $" textFill="#ffffff">
+                        <Label fx:id="actualCapital" layoutX="140.0" layoutY="100.0" text="1250 $" textFill="#ffffff">
                             <font><Font name="System Bold" size="12.0" /></font>
                         </Label>
                         <Label layoutX="14.0" layoutY="125.0" text="Pips:" textFill="#a0a0a0" />
@@ -99,9 +99,9 @@
                         <VBox layoutX="14.0" layoutY="180.0" spacing="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                             <children>
                                 <Label text="From:" textFill="#a0a0a0" />
-                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
                                 <Label text="To:" textFill="#a0a0a0" />
-                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3;" />
+                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
                             </children>
                         </VBox>
                     </children>

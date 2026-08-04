@@ -131,8 +131,10 @@ public class OpeningController {
     private void showSelectMode() {
         journalNameField.clear();
         initialCapitalField.clear();
-        currencyField.getItems().clear();
-        leverageField.getItems().clear();
+        currencyField.getSelectionModel().clearSelection();
+        currencyField.setPromptText("Select Currency");
+        leverageField.getSelectionModel().clearSelection();
+        leverageField.setPromptText("Select Leverage");
         journals.getItems().clear();
         journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
 
@@ -164,7 +166,7 @@ public class OpeningController {
     private void submitJournal(){
         if(journals.getValue() != null) {
             try{
-                app.journal(journals.getValue());
+                app.journal(journals.getValue().trim());
             } catch(IOException e){
                 System.out.println(e.getMessage());
             }
