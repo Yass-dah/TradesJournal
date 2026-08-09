@@ -50,7 +50,6 @@ public class JournalController {
         try {
             FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-form-view.fxml"));
             Parent addTradeRoot = loader.load();
-            TradeController tradeController = loader.getController();
 
             Stage modalStage = new Stage();
             Stage mainStage = (Stage) titleBar.getScene().getWindow();

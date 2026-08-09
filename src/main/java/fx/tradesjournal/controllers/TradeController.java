@@ -1,6 +1,7 @@
 package fx.tradesjournal.controllers;
 
 import fx.tradesjournal.model.Currency;
+import fx.tradesjournal.model.DefaultSymbols;
 import fx.tradesjournal.model.Leverage;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.fxml.FXML;
@@ -17,7 +18,7 @@ public class TradeController {
     private HBox titleBar;
 
     @FXML
-    private TextField symbolField;
+    private ComboBox<String> symbolComboBox;
 
     @FXML
     private ComboBox<String> typeComboBox;
@@ -54,6 +55,7 @@ public class TradeController {
 
     @FXML
     public void initialize() {
+        symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
         typeComboBox.getItems().addAll("BUY", "SELL");
     }
 
