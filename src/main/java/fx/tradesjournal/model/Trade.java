@@ -24,18 +24,48 @@ public class Trade {
     private String emotion;
     private String notes;
 
-    public Trade() {}
-
-    public Trade(String symbol, double entryPrice) {
-        this.symbol = symbol;
-        this.entryPrice = entryPrice;
+    public Trade() {
+        this.status = Status.OPEN;
     }
 
-    public Trade(String symbol, double entryPrice, double stopLoss, double takeProfit) {
+    public Trade(String symbol, Action action, String openDateTime, double entryPrice, double size, double fees) {
+        super();
         this.symbol = symbol;
+        this.action = action;
+        this.openDateTime = openDateTime;
         this.entryPrice = entryPrice;
+        this.size = size;
+        this.fees = fees;
+    }
+
+    public Trade(String symbol, Action action, String openDateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
+        super();
+        this.symbol = symbol;
+        this.action = action;
+        this.openDateTime = openDateTime;
+        this.entryPrice = entryPrice;
+        this.closePrice = closePrice;
+        this.size = size;
+        this.fees = fees;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
+    }
+
+    public Trade(String symbol, Action action, String openDateTime, String closeDateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit, String strategy, String emotion, String notes) {
+        super();
+        this.symbol = symbol;
+        this.action = action;
+        this.openDateTime = openDateTime;
+        this.closeDateTime = closeDateTime;
+        this.entryPrice = entryPrice;
+        this.closePrice = closePrice;
+        this.size = size;
+        this.fees = fees;
+        this.stopLoss = stopLoss;
+        this.takeProfit = takeProfit;
+        this.strategy = strategy;
+        this.emotion = emotion;
+        this.notes = notes;
     }
 
     // Getters

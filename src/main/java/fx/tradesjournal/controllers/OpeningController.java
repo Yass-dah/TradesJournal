@@ -16,6 +16,9 @@ import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class OpeningController {
     private FxApplication app;
@@ -109,7 +112,8 @@ public class OpeningController {
 
     @FXML
     public void initialize() {
-        journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
+        List<String> journalList = FilePersistenceManager.getJournalFiles();
+        journals.getItems().addAll(journalList != null ? journalList : new ArrayList<>());
         currencyField.getItems().addAll(Currency.values());
         leverageField.getItems().addAll(Leverage.values());
     }
@@ -136,7 +140,8 @@ public class OpeningController {
         leverageField.getSelectionModel().clearSelection();
         leverageField.setPromptText("Select Leverage");
         journals.getItems().clear();
-        journals.getItems().addAll(FilePersistenceManager.getJournalFiles());
+        journals.getItems().addAll(FilePersistenceManager.getJournalFiles() != null ?
+                FilePersistenceManager.getJournalFiles() : new ArrayList<>());
 
         root.getScene().getWindow().setHeight(232.0);
         createBox.setVisible(false);

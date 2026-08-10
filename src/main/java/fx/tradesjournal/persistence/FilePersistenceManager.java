@@ -18,9 +18,9 @@ public class FilePersistenceManager {
         File folder = dataFolderExists();
         File file = new File(folder, journal.getName() + ".json");
 
-        if(file.exists()) {
+        if(file.exists())
             return null;
-        }
+
         try (FileWriter writer = new FileWriter(file)) {
             gson.toJson(journal, writer);
             return file;
@@ -54,6 +54,7 @@ public class FilePersistenceManager {
 
     public static List<String> getJournalFiles(){
         File folder = dataFolderExists();
+        if(isDataFolderEmpty()) return null;
         List<String> journalNames = new ArrayList<String>();
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".json"));
         if (files != null) {
