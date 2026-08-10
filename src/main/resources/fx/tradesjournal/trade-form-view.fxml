@@ -206,8 +206,7 @@
                               wrapText="true"/>
                 </children>
             </VBox>
-            <Label fx:id="errorLabel" style="-fx-text-fill: #ff4d4d; -fx-font-size: 11px;" visible="false"
-                   wrapText="true"/>
+            <Label fx:id="errorLabel" style="-fx-text-fill: #ff4d4d; -fx-font-size: 11px;" wrapText="true"/>
             <HBox alignment="CENTER_RIGHT" spacing="12.0">
                 <children>
                     <Button mnemonicParsing="false" onAction="#handleCancel"
