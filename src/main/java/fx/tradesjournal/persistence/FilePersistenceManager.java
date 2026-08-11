@@ -2,6 +2,7 @@ package fx.tradesjournal.persistence;
 
 import com.google.gson.Gson;
 import fx.tradesjournal.model.Journal;
+import fx.tradesjournal.model.Trade;
 
 import java.io.File;
 import java.io.FileReader;
@@ -21,13 +22,25 @@ public class FilePersistenceManager {
         if(file.exists())
             return null;
 
-        try (FileWriter writer = new FileWriter(file)) {
-            gson.toJson(journal, writer);
-            return file;
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            return null;
-        }
+        return writeJournalToFile(journal, file);
+    }
+
+    public static boolean saveJournal(Journal journal) {
+        if (journal == null || journal.getName() == null)
+            return false;
+
+        File folder = dataFolderExists();
+        File file = new File(folder, journal.getName() + ".json");
+
+        return writeJournalToFile(journal, file) != null;
+    }
+
+    public static boolean addTradeToJournal(Journal journal, Trade trade) {
+        if (journal == null || trade == null)
+            return false;
+
+        journal.getTrades().add(trade);
+        return saveJournal(journal);
     }
 
     public static Journal loadJournal(String journalName){
@@ -40,6 +53,16 @@ public class FilePersistenceManager {
 
         try (FileReader reader = new FileReader(file)) {
             return gson.fromJson(reader, Journal.class);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    private static File writeJournalToFile(Journal journal, File file) {
+        try (FileWriter writer = new FileWriter(file)) {
+            gson.toJson(journal, writer);
+            return file;
         } catch (IOException e) {
             System.out.println(e.getMessage());
             return null;

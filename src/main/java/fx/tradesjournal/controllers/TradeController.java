@@ -12,7 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 public class TradeController {
     @FXML
@@ -105,8 +105,21 @@ public class TradeController {
 
     @FXML
     private void handleSave(){
-        if(!checkMandatoryFields(symbolComboBox.getValue(), typeComboBox.getValue(), entryDatePicker.getValue(),
-                entryTimeField.getText(), entryPriceField.getText(), sizeField.getText(), feesField.getText()))
+        String symbol = symbolComboBox.getValue();
+        Trade.Action type = typeComboBox.getValue();
+        LocalDate entryDate = entryDatePicker.getValue();
+        String entryTime = entryTimeField.getText();
+        String entryPrice = entryPriceField.getText();
+        String size = sizeField.getText();
+        String fees = feesField.getText();
+
+        if(!checkMandatoryFields(symbol, type, entryDate, entryTime, entryPrice, size, fees))
             return;
+
+        String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
+
+        Trade trade = new Trade(symbol, type, formattedDate, Double.parseDouble(entryTime), Double.parseDouble(size), Double.parseDouble(fees));
+
+
     }
 }

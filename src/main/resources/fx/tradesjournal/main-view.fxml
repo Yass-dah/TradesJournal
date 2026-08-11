@@ -6,14 +6,14 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TreeTableColumn?>
-<?import javafx.scene.control.TreeTableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <VBox prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #1e1e1e;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fx.tradesjournal.controllers.JournalController">
     <children>
         <HBox fx:id="titleBar" alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="900.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 1 0;" VBox.vgrow="NEVER">
@@ -56,20 +56,20 @@
                                 </Button>
                             </children>
                         </HBox>
-                        <TreeTableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
+                        <TableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
                             <columns>
-                                <TreeTableColumn prefWidth="75.0" text="Symbol" />
-                                <TreeTableColumn prefWidth="60.0" text="Size" />
-                                <TreeTableColumn prefWidth="65.0" text="Action" />
-                                <TreeTableColumn prefWidth="80.0" text="Open Price" />
-                                <TreeTableColumn prefWidth="80.0" text="Stop Loss" />
-                                <TreeTableColumn prefWidth="85.0" text="Take Profit" />
-                                <TreeTableColumn prefWidth="70.0" text="Status" />
+                                <TableColumn prefWidth="75.0" text="Symbol" />
+                                <TableColumn prefWidth="60.0" text="Size" />
+                                <TableColumn prefWidth="65.0" text="Action" />
+                                <TableColumn prefWidth="80.0" text="Open Price" />
+                                <TableColumn prefWidth="80.0" text="Stop Loss" />
+                                <TableColumn prefWidth="85.0" text="Take Profit" />
+                                <TableColumn prefWidth="70.0" text="Status" />
                             </columns>
                             <columnResizePolicy>
-                                <TreeTableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
-                        </TreeTableView>
+                        </TableView>
                     </children>
                 </AnchorPane>
                 <AnchorPane minWidth="250.0" prefHeight="550.0" prefWidth="270.0" style="-fx-background-color: #1e1e1e;">
