@@ -77,7 +77,7 @@ public class Trade {
         return size;
     }
 
-    public Action getAction() {
+    public Action getType() {
         return action;
     }
 

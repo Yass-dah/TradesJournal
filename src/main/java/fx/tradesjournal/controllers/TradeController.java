@@ -1,9 +1,6 @@
 package fx.tradesjournal.controllers;
 
-import fx.tradesjournal.model.Currency;
-import fx.tradesjournal.model.DefaultSymbols;
-import fx.tradesjournal.model.Leverage;
-import fx.tradesjournal.model.Trade;
+import fx.tradesjournal.model.*;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -15,6 +12,8 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TradeController {
+    private Journal journal;
+
     @FXML
     private VBox root;
 
@@ -56,6 +55,10 @@ public class TradeController {
 
     @FXML
     private Label errorLabel;
+
+    public void setJournal(Journal journal){
+        this.journal = journal;
+    }
 
     private boolean checkMandatoryFields(String symbol, Trade.Action type, LocalDate entryDate, String entryTime,
                                          String entryPrice, String size, String fees) {
@@ -118,8 +121,9 @@ public class TradeController {
 
         String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
 
-        Trade trade = new Trade(symbol, type, formattedDate, Double.parseDouble(entryTime), Double.parseDouble(size), Double.parseDouble(fees));
+        Trade trade = new Trade(symbol, type, formattedDate, Double.parseDouble(entryPrice), Double.parseDouble(size), Double.parseDouble(fees));
 
-
+        FilePersistenceManager.addTradeToJournal(journal, trade);
+        ((Stage)titleBar.getScene().getWindow()).close();
     }
 }

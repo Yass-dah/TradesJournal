@@ -56,15 +56,15 @@
                                 </Button>
                             </children>
                         </HBox>
-                        <TableView layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
+                        <TableView fx:id="tradesTableView" layoutX="14.0" layoutY="50.0" prefHeight="475.0" prefWidth="600.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4;" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
                             <columns>
-                                <TableColumn prefWidth="75.0" text="Symbol" />
-                                <TableColumn prefWidth="60.0" text="Size" />
-                                <TableColumn prefWidth="65.0" text="Action" />
-                                <TableColumn prefWidth="80.0" text="Open Price" />
-                                <TableColumn prefWidth="80.0" text="Stop Loss" />
-                                <TableColumn prefWidth="85.0" text="Take Profit" />
-                                <TableColumn prefWidth="70.0" text="Status" />
+                                <TableColumn fx:id="symbolColumn" prefWidth="75.0" text="Symbol" />
+                                <TableColumn fx:id="sizeColumn" prefWidth="60.0" text="Size" />
+                                <TableColumn fx:id="actionColumn" prefWidth="65.0" text="Action" />
+                                <TableColumn fx:id="openPriceColumn" prefWidth="80.0" text="Open Price" />
+                                <TableColumn fx:id="stopLossColumn" prefWidth="80.0" text="Stop Loss" />
+                                <TableColumn fx:id="takeProfitColumn" prefWidth="85.0" text="Take Profit" />
+                                <TableColumn fx:id="statusColumn" prefWidth="70.0" text="Status" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

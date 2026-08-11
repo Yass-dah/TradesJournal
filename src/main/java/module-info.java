@@ -4,7 +4,7 @@ module fx.tradesjournal {
     requires com.google.gson;
 
     opens fx.tradesjournal to javafx.fxml;
-    opens fx.tradesjournal.model to com.google.gson;
+    opens fx.tradesjournal.model to com.google.gson, javafx.base;
 
     exports fx.tradesjournal;
     exports fx.tradesjournal.controllers;
