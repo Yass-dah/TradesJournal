@@ -35,14 +35,6 @@ public class FilePersistenceManager {
         return writeJournalToFile(journal, file) != null;
     }
 
-    public static boolean addTradeToJournal(Journal journal, Trade trade) {
-        if (journal == null || trade == null)
-            return false;
-
-        journal.getTrades().add(trade);
-        return saveJournal(journal);
-    }
-
     public static Journal loadJournal(String journalName){
         File file = new File(dataFolderExists(), journalName + ".json");
 

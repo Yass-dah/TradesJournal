@@ -123,7 +123,8 @@ public class TradeController {
 
         Trade trade = new Trade(symbol, type, formattedDate, Double.parseDouble(entryPrice), Double.parseDouble(size), Double.parseDouble(fees));
 
-        FilePersistenceManager.addTradeToJournal(journal, trade);
+        journal.getTrades().add(trade);
+        FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();
     }
 }

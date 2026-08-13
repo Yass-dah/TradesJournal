@@ -3,14 +3,13 @@ package fx.tradesjournal.controllers;
 import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
+import fx.tradesjournal.persistence.FilePersistenceManager;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
@@ -61,6 +60,33 @@ public class JournalController {
         }
     }
 
+    private void setupTableContextMenu() {
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem deleteItem = new MenuItem("Delete Trade");
+        deleteItem.setOnAction(event -> {
+            Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
+            if (selectedTrade != null)
+                handleDeleteTrade(selectedTrade);
+        });
+
+        contextMenu.getItems().add(deleteItem);
+        tradesTableView.setRowFactory(tv -> {
+            TableRow<Trade> row = new TableRow<>();
+            row.contextMenuProperty().bind(javafx.beans.binding.Bindings.when(row.emptyProperty())
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu)
+            );
+            return row;
+        });
+    }
+
+    private void handleDeleteTrade(Trade trade) {
+        activeJournal.getTrades().remove(trade);
+        FilePersistenceManager.saveJournal(activeJournal);
+        populateTradesTable();
+    }
+
     @FXML
     public void initialize() {
         symbolColumn.setCellValueFactory(new PropertyValueFactory<>("symbol"));
@@ -70,6 +96,7 @@ public class JournalController {
         stopLossColumn.setCellValueFactory(new PropertyValueFactory<>("stopLoss"));
         takeProfitColumn.setCellValueFactory(new PropertyValueFactory<>("takeProfit"));
         statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        setupTableContextMenu();
     }
 
     @FXML
@@ -95,8 +122,14 @@ public class JournalController {
             modalStage.initStyle(StageStyle.UNDECORATED);
             modalStage.setScene(new Scene(addTradeRoot));
             modalStage.showAndWait();
+            refreshTradeTable();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    private void refreshTradeTable() {
+        tradesTableView.setItems(FXCollections.observableArrayList(activeJournal.getTrades()));
+        tradesTableView.refresh();
     }
 }
