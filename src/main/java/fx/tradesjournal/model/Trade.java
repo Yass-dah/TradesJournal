@@ -10,34 +10,32 @@ public class Trade {
 
     private double entryPrice;
     private double closePrice;
+    private double profitLoss;
 
     private double stopLoss;
     private double takeProfit;
 
-    private String openDateTime;
-    private String closeDateTime;
+    private String dateTime;
 
     private double fees;
     private Status status;
 
-    private String strategy;
-    private String emotion;
     private String notes;
 
-    public Trade(String symbol, Action action, String openDateTime, double entryPrice, double size, double fees) {
+    public Trade(String symbol, Action action, String dateTime, double entryPrice, double size, double fees) {
         this.symbol = symbol;
         this.action = action;
-        this.openDateTime = openDateTime;
+        this.dateTime = dateTime;
         this.entryPrice = entryPrice;
         this.size = size;
         this.fees = fees;
         this.status = Status.OPEN;
     }
 
-    public Trade(String symbol, Action action, String openDateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
+    public Trade(String symbol, Action action, String dateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
         this.symbol = symbol;
         this.action = action;
-        this.openDateTime = openDateTime;
+        this.dateTime = dateTime;
         this.entryPrice = entryPrice;
         this.closePrice = closePrice;
         this.size = size;
@@ -47,19 +45,17 @@ public class Trade {
         this.status = Status.OPEN;
     }
 
-    public Trade(String symbol, Action action, String openDateTime, String closeDateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit, String strategy, String emotion, String notes) {
+    public Trade(String symbol, Action action, String dateTime, double entryPrice, double closePrice, double profitLoss, double size, double fees, double stopLoss, double takeProfit, String notes) {
         this.symbol = symbol;
         this.action = action;
-        this.openDateTime = openDateTime;
-        this.closeDateTime = closeDateTime;
+        this.dateTime = dateTime;
         this.entryPrice = entryPrice;
         this.closePrice = closePrice;
+        this.profitLoss = profitLoss;
         this.size = size;
         this.fees = fees;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
-        this.strategy = strategy;
-        this.emotion = emotion;
         this.notes = notes;
         this.status = Status.OPEN;
     }
@@ -85,6 +81,10 @@ public class Trade {
         return closePrice;
     }
 
+    public double getProfitLoss() {
+        return profitLoss;
+    }
+
     public double getStopLoss() {
         return stopLoss;
     }
@@ -93,12 +93,8 @@ public class Trade {
         return takeProfit;
     }
 
-    public String getOpenDateTime() {
-        return openDateTime;
-    }
-
-    public String getCloseDateTime() {
-        return closeDateTime;
+    public String getDateTime() {
+        return dateTime;
     }
 
     public double getFees() {
@@ -107,14 +103,6 @@ public class Trade {
 
     public Status getStatus() {
         return status;
-    }
-
-    public String getStrategy() {
-        return strategy;
-    }
-
-    public String getEmotion() {
-        return emotion;
     }
 
     public String getNotes() {

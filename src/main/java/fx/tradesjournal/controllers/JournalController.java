@@ -42,7 +42,7 @@ public class JournalController {
     @FXML
     private Label actualCapital;
 
-    // Setters
+
     public void populateTradesTable() {
         if (activeJournal.getTrades() != null) {
             tradesTableView.setItems(FXCollections.observableArrayList(activeJournal.getTrades()));
@@ -50,6 +50,7 @@ public class JournalController {
         } else tradesTableView.getItems().clear();
     }
 
+    // Setters
     public void setJournal(Journal journal) {
         this.activeJournal = journal;
         if(this.activeJournal != null) {
