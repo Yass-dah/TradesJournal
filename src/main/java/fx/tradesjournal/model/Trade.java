@@ -9,11 +9,11 @@ public class Trade {
     private Action action;
 
     private double entryPrice;
-    private double closePrice;
-    private double profitLoss;
+    private Double closePrice;
+    private Double profitLoss;
 
-    private double stopLoss;
-    private double takeProfit;
+    private Double stopLoss;
+    private Double takeProfit;
 
     private String dateTime;
 
@@ -32,7 +32,7 @@ public class Trade {
         this.fees = fees;
     }
 
-    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
+    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, Double closePrice, double size, double fees, Double stopLoss, Double takeProfit) {
         this.status = Status.OPEN;
         this.symbol = symbol;
         this.action = action;
@@ -45,7 +45,7 @@ public class Trade {
         this.takeProfit = takeProfit;
     }
 
-    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double closePrice, double profitLoss, double size, double fees, double stopLoss, double takeProfit, String notes) {
+    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, Double closePrice, Double profitLoss, double size, double fees, Double stopLoss, Double takeProfit, String notes) {
         this.status = status;
         this.symbol = symbol;
         this.action = action;
@@ -75,17 +75,17 @@ public class Trade {
 
     public double getEntryPrice() { return entryPrice; }
 
-    public double getClosePrice() { return closePrice; }
+    public Double getClosePrice() { return closePrice; }
 
-    public double getProfitLoss() {
+    public Double getProfitLoss() {
         return profitLoss;
     }
 
-    public double getStopLoss() {
+    public Double getStopLoss() {
         return stopLoss;
     }
 
-    public double getTakeProfit() {
+    public Double getTakeProfit() {
         return takeProfit;
     }
 

@@ -163,10 +163,10 @@ public class TradeController {
             return;
 
         String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
-        double exitPriceClean = exitPrice == null || exitPrice.isEmpty() ? 0.0 : Double.parseDouble(exitPrice);
-        double profitLossClean = profitLoss == null || profitLoss.isEmpty() ? 0.0 : Double.parseDouble(profitLoss);
-        double stopLossClean = stopLoss == null || stopLoss.isEmpty() ? 0.0 : Double.parseDouble(stopLoss);
-        double takeProfitClean = takeProfit == null || takeProfit.isEmpty() ? 0.0 : Double.parseDouble(takeProfit);
+        Double exitPriceClean = exitPrice == null || exitPrice.isEmpty() ? null : Double.parseDouble(exitPrice);
+        Double profitLossClean = profitLoss == null || profitLoss.isEmpty() ? null : Double.parseDouble(profitLoss);
+        Double stopLossClean = stopLoss == null || stopLoss.isEmpty() ? null : Double.parseDouble(stopLoss);
+        Double takeProfitClean = takeProfit == null || takeProfit.isEmpty() ? null : Double.parseDouble(takeProfit);
         Trade trade = new Trade(status,
                 symbol,
                 type,
