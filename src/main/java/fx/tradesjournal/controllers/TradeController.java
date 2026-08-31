@@ -21,6 +21,9 @@ public class TradeController {
     private HBox titleBar;
 
     @FXML
+    private Label statusLabel;
+
+    @FXML
     private ComboBox<String> symbolComboBox;
 
     @FXML
@@ -49,6 +52,9 @@ public class TradeController {
 
     @FXML
     private TextField takeProfitField;
+
+    @FXML
+    private TextField profitLossField;
 
     @FXML
     private TextArea notesArea;
@@ -94,10 +100,38 @@ public class TradeController {
         return true;
     }
 
+    private boolean checkClosingFields(String exitPrice, String profitLoss) {
+        boolean exitPriceSet = exitPrice == null || !exitPrice.trim().isEmpty(),
+                profitLossSet = profitLoss == null || !profitLoss.trim().isEmpty();
+        if(exitPriceSet && !profitLossSet) {
+            errorLabel.setText("Please provide also a profit/loss value with the exit price");
+            return false;
+        }
+        if(!exitPriceSet && profitLossSet) {
+            errorLabel.setText("Please provide also an exit price value with the profit/loss");
+            return false;
+        }
+        errorLabel.setText("");
+        return true;
+    }
+
+    private void updateStatus(String text) {
+        if (text != null && !text.trim().isEmpty()) {
+            statusLabel.setText("CLOSED");
+            statusLabel.setStyle("-fx-text-fill: #ffb74d; -fx-font-weight: bold;");
+        } else {
+            statusLabel.setText("OPEN");
+            statusLabel.setStyle("-fx-text-fill: #00e676; -fx-font-weight: bold;");
+        }
+    }
+
     @FXML
     public void initialize() {
         symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
         typeComboBox.getItems().addAll(Trade.Action.LONG, Trade.Action.SHORT);
+        exitPriceField.textProperty().addListener((obs, oldValue, newValue) -> {
+            updateStatus(newValue);
+        });
     }
 
     @FXML
@@ -108,20 +142,43 @@ public class TradeController {
 
     @FXML
     private void handleSave(){
+        Trade.Status status = statusLabel.getText().equals("CLOSED") ? Trade.Status.CLOSED : Trade.Status.OPEN;
         String symbol = symbolComboBox.getValue();
         Trade.Action type = typeComboBox.getValue();
         LocalDate entryDate = entryDatePicker.getValue();
         String entryTime = entryTimeField.getText();
         String entryPrice = entryPriceField.getText();
+        String exitPrice = exitPriceField.getText();
         String size = sizeField.getText();
         String fees = feesField.getText();
+        String stopLoss = stopLossField.getText();
+        String takeProfit = takeProfitField.getText();
+        String profitLoss = profitLossField.getText();
+        String notes = notesArea.getText();
 
         if(!checkMandatoryFields(symbol, type, entryDate, entryTime, entryPrice, size, fees))
             return;
 
-        String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
+        if(!checkClosingFields(exitPrice, profitLoss))
+            return;
 
-        Trade trade = new Trade(symbol, type, formattedDate, Double.parseDouble(entryPrice), Double.parseDouble(size), Double.parseDouble(fees));
+        String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
+        double exitPriceClean = exitPrice == null || exitPrice.isEmpty() ? 0.0 : Double.parseDouble(exitPrice);
+        double profitLossClean = profitLoss == null || profitLoss.isEmpty() ? 0.0 : Double.parseDouble(profitLoss);
+        double stopLossClean = stopLoss == null || stopLoss.isEmpty() ? 0.0 : Double.parseDouble(stopLoss);
+        double takeProfitClean = takeProfit == null || takeProfit.isEmpty() ? 0.0 : Double.parseDouble(takeProfit);
+        Trade trade = new Trade(status,
+                symbol,
+                type,
+                formattedDate,
+                Double.parseDouble(entryPrice),
+                exitPriceClean,
+                profitLossClean,
+                Double.parseDouble(size),
+                Double.parseDouble(fees),
+                stopLossClean,
+                takeProfitClean,
+                notes);
 
         journal.getTrades().add(trade);
         FilePersistenceManager.saveJournal(journal);

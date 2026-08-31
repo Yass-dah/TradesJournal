@@ -22,17 +22,18 @@ public class Trade {
 
     private String notes;
 
-    public Trade(String symbol, Action action, String dateTime, double entryPrice, double size, double fees) {
+    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double size, double fees) {
+        this.status = Status.OPEN;
         this.symbol = symbol;
         this.action = action;
         this.dateTime = dateTime;
         this.entryPrice = entryPrice;
         this.size = size;
         this.fees = fees;
-        this.status = Status.OPEN;
     }
 
-    public Trade(String symbol, Action action, String dateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
+    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double closePrice, double size, double fees, double stopLoss, double takeProfit) {
+        this.status = Status.OPEN;
         this.symbol = symbol;
         this.action = action;
         this.dateTime = dateTime;
@@ -42,10 +43,10 @@ public class Trade {
         this.fees = fees;
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
-        this.status = Status.OPEN;
     }
 
-    public Trade(String symbol, Action action, String dateTime, double entryPrice, double closePrice, double profitLoss, double size, double fees, double stopLoss, double takeProfit, String notes) {
+    public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double closePrice, double profitLoss, double size, double fees, double stopLoss, double takeProfit, String notes) {
+        this.status = status;
         this.symbol = symbol;
         this.action = action;
         this.dateTime = dateTime;
@@ -57,7 +58,6 @@ public class Trade {
         this.stopLoss = stopLoss;
         this.takeProfit = takeProfit;
         this.notes = notes;
-        this.status = Status.OPEN;
     }
 
     // Getters
@@ -73,13 +73,9 @@ public class Trade {
         return action;
     }
 
-    public double getEntryPrice() {
-        return entryPrice;
-    }
+    public double getEntryPrice() { return entryPrice; }
 
-    public double getClosePrice() {
-        return closePrice;
-    }
+    public double getClosePrice() { return closePrice; }
 
     public double getProfitLoss() {
         return profitLoss;
@@ -101,9 +97,7 @@ public class Trade {
         return fees;
     }
 
-    public Status getStatus() {
-        return status;
-    }
+    public Status getStatus() { return status; }
 
     public String getNotes() {
         return notes;
