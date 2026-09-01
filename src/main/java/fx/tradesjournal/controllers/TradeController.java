@@ -13,6 +13,7 @@ import java.time.format.DateTimeFormatter;
 
 public class TradeController {
     private Journal journal;
+    private Trade tradeToEdit;
 
     @FXML
     private VBox root;
@@ -64,6 +65,35 @@ public class TradeController {
 
     public void setJournal(Journal journal){
         this.journal = journal;
+        this.tradeToEdit = null;
+    }
+
+    public void setJournalAndTrade(Journal journal, Trade tradeToEdit){
+        this.journal = journal;
+        this.tradeToEdit = tradeToEdit;
+        if(tradeToEdit != null)
+            populateFields();
+    }
+
+    private void populateFields(){
+        statusLabel.setText(tradeToEdit.getStatus().name());
+        symbolComboBox.setValue(tradeToEdit.getSymbol());
+        typeComboBox.setValue(tradeToEdit.getType());
+
+        if (tradeToEdit.getDateTime() != null) {
+            String[] parts = tradeToEdit.getDateTime().split(" ");
+            entryDatePicker.setValue(LocalDate.parse(parts[0]));
+            if (parts.length > 1) entryTimeField.setText(parts[1]);
+        }
+
+        entryPriceField.setText(String.valueOf(tradeToEdit.getEntryPrice()));
+        sizeField.setText(String.valueOf(tradeToEdit.getSize()));
+        feesField.setText(String.valueOf(tradeToEdit.getFees()));
+        exitPriceField.setText(tradeToEdit.getClosePrice() != null ? String.valueOf(tradeToEdit.getClosePrice()) : "");
+        profitLossField.setText(tradeToEdit.getProfitLoss() != null ? String.valueOf(tradeToEdit.getProfitLoss()) : "");
+        stopLossField.setText(tradeToEdit.getStopLoss() != null ? String.valueOf(tradeToEdit.getStopLoss()) : "");
+        takeProfitField.setText(tradeToEdit.getTakeProfit() != null ? String.valueOf(tradeToEdit.getTakeProfit()) : "");
+        notesArea.setText(tradeToEdit.getNotes() != null ? tradeToEdit.getNotes() : "");
     }
 
     private boolean checkMandatoryFields(String symbol, Trade.Action type, LocalDate entryDate, String entryTime,
@@ -125,6 +155,10 @@ public class TradeController {
         }
     }
 
+    private Double getCleanValue(String value) {
+        return value == null || value.isEmpty() ? null : Double.parseDouble(value);
+    }
+
     @FXML
     public void initialize() {
         symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
@@ -163,24 +197,40 @@ public class TradeController {
             return;
 
         String formattedDate = entryDate.format(DateTimeFormatter.ISO_LOCAL_DATE) + " " + entryTime;
-        Double exitPriceClean = exitPrice == null || exitPrice.isEmpty() ? null : Double.parseDouble(exitPrice);
-        Double profitLossClean = profitLoss == null || profitLoss.isEmpty() ? null : Double.parseDouble(profitLoss);
-        Double stopLossClean = stopLoss == null || stopLoss.isEmpty() ? null : Double.parseDouble(stopLoss);
-        Double takeProfitClean = takeProfit == null || takeProfit.isEmpty() ? null : Double.parseDouble(takeProfit);
-        Trade trade = new Trade(status,
-                symbol,
-                type,
-                formattedDate,
-                Double.parseDouble(entryPrice),
-                exitPriceClean,
-                profitLossClean,
-                Double.parseDouble(size),
-                Double.parseDouble(fees),
-                stopLossClean,
-                takeProfitClean,
-                notes);
+        Double exitPriceClean = getCleanValue(exitPrice);
+        Double profitLossClean = getCleanValue(profitLoss);
+        Double stopLossClean = getCleanValue(stopLoss);
+        Double takeProfitClean = getCleanValue(takeProfit);
 
-        journal.getTrades().add(trade);
+        if(tradeToEdit != null){
+            tradeToEdit.setStatus(status);
+            tradeToEdit.setSymbol(symbol);
+            tradeToEdit.setAction(type);
+            tradeToEdit.setDateTime(formattedDate);
+            tradeToEdit.setEntryPrice(Double.parseDouble(entryPrice));
+            tradeToEdit.setClosePrice(exitPriceClean);
+            tradeToEdit.setProfitLoss(profitLossClean);
+            tradeToEdit.setSize(Double.parseDouble(size));
+            tradeToEdit.setFees(Double.parseDouble(fees));
+            tradeToEdit.setStopLoss(stopLossClean);
+            tradeToEdit.setTakeProfit(takeProfitClean);
+            tradeToEdit.setNotes(notes);
+        } else {
+            Trade trade = new Trade(status,
+                    symbol,
+                    type,
+                    formattedDate,
+                    Double.parseDouble(entryPrice),
+                    exitPriceClean,
+                    profitLossClean,
+                    Double.parseDouble(size),
+                    Double.parseDouble(fees),
+                    stopLossClean,
+                    takeProfitClean,
+                    notes);
+
+            journal.getTrades().add(trade);
+        }
         FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();
     }

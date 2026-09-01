@@ -60,7 +60,7 @@ public class Trade {
         this.notes = notes;
     }
 
-    // Getters
+    // Getters & Setters
     public String getSymbol() {
         return symbol;
     }
@@ -101,5 +101,53 @@ public class Trade {
 
     public String getNotes() {
         return notes;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setSize(double size) {
+        this.size = size;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setFees(double fees) {
+        this.fees = fees;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public void setTakeProfit(Double takeProfit) {
+        this.takeProfit = takeProfit;
+    }
+
+    public void setStopLoss(Double stopLoss) {
+        this.stopLoss = stopLoss;
+    }
+
+    public void setProfitLoss(Double profitLoss) {
+        this.profitLoss = profitLoss;
+    }
+
+    public void setClosePrice(Double closePrice) {
+        this.closePrice = closePrice;
+    }
+
+    public void setEntryPrice(double entryPrice) {
+        this.entryPrice = entryPrice;
+    }
+
+    public void setAction(Action action) {
+        this.action = action;
     }
 }

@@ -71,6 +71,14 @@ public class JournalController {
                 handleDeleteTrade(selectedTrade);
         });
 
+        MenuItem editItem = new MenuItem("Edit Trade");
+        editItem.setOnAction(event -> {
+            Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
+            if (selectedTrade != null)
+                handleEditTrade(selectedTrade);
+        });
+
+        contextMenu.getItems().add(editItem);
         contextMenu.getItems().add(deleteItem);
         tradesTableView.setRowFactory(tv -> {
             TableRow<Trade> row = new TableRow<>();
@@ -86,6 +94,28 @@ public class JournalController {
         activeJournal.getTrades().remove(trade);
         FilePersistenceManager.saveJournal(activeJournal);
         populateTradesTable();
+    }
+
+    private void handleEditTrade(Trade trade) {
+        try {
+            FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-form-view.fxml"));
+            Parent addTradeRoot = loader.load();
+
+            TradeController tradeController = loader.getController();
+            tradeController.setJournalAndTrade(activeJournal, trade);
+
+            Stage modalStage = new Stage();
+            Stage mainStage = (Stage) titleBar.getScene().getWindow();
+
+            modalStage.initOwner(mainStage);
+            modalStage.initModality(Modality.WINDOW_MODAL);
+            modalStage.initStyle(StageStyle.UNDECORATED);
+            modalStage.setScene(new Scene(addTradeRoot));
+            modalStage.showAndWait();
+            refreshTradeTable();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @FXML
