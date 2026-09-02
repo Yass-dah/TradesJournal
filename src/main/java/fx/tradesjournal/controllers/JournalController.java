@@ -4,6 +4,7 @@ import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,7 +41,13 @@ public class JournalController {
     private Label initialCapital;
 
     @FXML
+    private Label profitLossPercent;
+
+    @FXML
     private Label actualCapital;
+
+    @FXML
+    private Label pipsQt;
 
 
     public void populateTradesTable() {
@@ -58,6 +65,13 @@ public class JournalController {
             journalIdentification.textProperty().bind(activeJournal.nameProperty());
             initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString());
             actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString());
+            profitLossPercent.textProperty().bind(
+                    activeJournal.actualCapitalProperty()
+                            .subtract(activeJournal.initCapitalProperty())
+                            .divide(activeJournal.initCapitalProperty())
+                            .multiply(100)
+                            .asString("%.2f%%")
+            );
         }
     }
 
@@ -92,6 +106,7 @@ public class JournalController {
 
     private void handleDeleteTrade(Trade trade) {
         activeJournal.getTrades().remove(trade);
+        activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
         FilePersistenceManager.saveJournal(activeJournal);
         populateTradesTable();
     }

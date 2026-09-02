@@ -230,6 +230,7 @@ public class TradeController {
                     notes);
 
             journal.getTrades().add(trade);
+            journal.setActualCapital(journal.getActualCapital() + trade.getProfitLoss());
         }
         FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();
