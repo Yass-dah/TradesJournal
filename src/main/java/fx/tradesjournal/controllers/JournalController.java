@@ -10,11 +10,13 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,12 +36,22 @@ public class JournalController {
     @FXML private TableColumn<Trade, String> statusColumn;
     @FXML private DatePicker fromDate;
     @FXML private DatePicker toDate;
+    @FXML private Label mouseSectionLabel;
 
     private Journal activeJournal;
     private FilteredList<Trade> filteredTrades;
 
     @FXML
     private HBox titleBar;
+
+    @FXML
+    private AnchorPane tradesTable;
+
+    @FXML
+    private AnchorPane journalStats;
+
+    @FXML
+    private HBox statusBar;
 
     @FXML
     private Label journalIdentification;
@@ -69,8 +81,8 @@ public class JournalController {
         if(this.activeJournal != null) {
             setupFilteredTable();
             journalIdentification.textProperty().bind(activeJournal.nameProperty());
-            initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString());
-            actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString());
+            initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString("%.2f €"));
+            actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString("%.2f €"));
             profitLossPercent.textProperty().bind(
                     activeJournal.actualCapitalProperty()
                             .subtract(activeJournal.initCapitalProperty())
@@ -152,8 +164,25 @@ public class JournalController {
         tradesQt.textProperty().bind(Bindings.size(filteredTrades).asString());
     }
 
+    private void setupSectionHoverTracker() {
+        registerSectionHover(titleBar, "Title Bar");
+        registerSectionHover(tradesTable, "Trades Table");
+        registerSectionHover(journalStats, "Stats & Filters");
+        registerSectionHover(statusBar, "Status Bar");
+    }
+
+    private void registerSectionHover(Node node, String sectionName) {
+        if (node != null && mouseSectionLabel != null) {
+            node.hoverProperty().addListener((observable, oldValue, isHovered) -> {
+                if (isHovered)
+                    mouseSectionLabel.setText(sectionName);
+            });
+        }
+    }
+
     @FXML
     public void initialize() {
+        setupSectionHoverTracker();
         symbolColumn.setCellValueFactory(new PropertyValueFactory<>("symbol"));
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
@@ -169,7 +198,6 @@ public class JournalController {
                     setStyle("");
                     return;
                 }
-
                 setText(String.format("%.2f €", item));
                 setStyle(item >= 0 ? "-fx-text-fill: #28a745;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
             }

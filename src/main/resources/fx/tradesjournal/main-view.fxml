@@ -39,7 +39,7 @@
         </HBox>
         <SplitPane dividerPositions="0.9" focusTraversable="true" style="-fx-background-color: #1e1e1e; -fx-box-border: transparent;" VBox.vgrow="ALWAYS">
             <items>
-                <AnchorPane minWidth="520.0" prefHeight="550.0" prefWidth="680.0" style="-fx-background-color: #1e1e1e;">
+                <AnchorPane fx:id="tradesTable" minWidth="520.0" prefHeight="550.0" prefWidth="680.0" style="-fx-background-color: #1e1e1e;">
                     <children>
                         <HBox alignment="CENTER_LEFT" layoutX="14.0" layoutY="10.0" prefHeight="32.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="10.0">
                             <children>
@@ -72,7 +72,7 @@
                         </TableView>
                     </children>
                 </AnchorPane>
-                <AnchorPane minWidth="200.0" prefHeight="550.0" prefWidth="220.0" style="-fx-background-color: #1e1e1e;">
+                <AnchorPane fx:id="journalStats" minWidth="200.0" prefHeight="550.0" prefWidth="220.0" style="-fx-background-color: #1e1e1e;">
                     <children>
                         <Label alignment="CENTER" layoutX="14.0" layoutY="12.0" text="Stats" textFill="#ffffff">
                             <font>
@@ -113,7 +113,7 @@
                 </AnchorPane>
             </items>
         </SplitPane>
-        <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 1 0 0 0;" VBox.vgrow="NEVER">
+        <HBox fx:id="statusBar" id="HBox" alignment="CENTER_LEFT" spacing="5.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 1 0 0 0;" VBox.vgrow="NEVER">
             <children>
                 <Label fx:id="journalIdentification" maxHeight="1.7976931348623157E308" text="None" textFill="#888888" HBox.hgrow="ALWAYS">
                     <font>
@@ -121,7 +121,7 @@
                     </font>
                 </Label>
                 <Pane HBox.hgrow="ALWAYS" />
-                <Label text="Journal Loaded" textFill="#888888" HBox.hgrow="NEVER">
+                <Label fx:id="mouseSectionLabel" text="Journal Loaded" textFill="#888888" HBox.hgrow="NEVER">
                     <font>
                         <Font size="11.0" />
                     </font>
