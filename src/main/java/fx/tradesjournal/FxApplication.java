@@ -3,6 +3,7 @@ package fx.tradesjournal;
 import fx.tradesjournal.controllers.JournalController;
 import fx.tradesjournal.controllers.OpeningController;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

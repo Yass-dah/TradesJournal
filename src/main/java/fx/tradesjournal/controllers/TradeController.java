@@ -2,6 +2,7 @@ package fx.tradesjournal.controllers;
 
 import fx.tradesjournal.model.*;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -159,6 +160,10 @@ public class TradeController {
         return value == null || value.isEmpty() ? null : Double.parseDouble(value);
     }
 
+    private double getProfitLossValue(Double value) {
+        return value == null ? 0.0 : value;
+    }
+
     @FXML
     public void initialize() {
         symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
@@ -203,7 +208,7 @@ public class TradeController {
         Double takeProfitClean = getCleanValue(takeProfit);
 
         if(tradeToEdit != null){
-            double oldProfitLoss = (tradeToEdit.getProfitLoss() != null) ? tradeToEdit.getProfitLoss() : 0.0;
+            double oldProfitLoss = getProfitLossValue(tradeToEdit.getProfitLoss());
             tradeToEdit.setStatus(status);
             tradeToEdit.setSymbol(symbol);
             tradeToEdit.setAction(type);
@@ -216,7 +221,7 @@ public class TradeController {
             tradeToEdit.setStopLoss(stopLossClean);
             tradeToEdit.setTakeProfit(takeProfitClean);
             tradeToEdit.setNotes(notes);
-            journal.setActualCapital(journal.getActualCapital() - oldProfitLoss + tradeToEdit.getProfitLoss());
+            journal.setActualCapital(journal.getActualCapital() - oldProfitLoss + getProfitLossValue(tradeToEdit.getProfitLoss()));
         } else {
             Trade trade = new Trade(status,
                     symbol,
@@ -232,7 +237,7 @@ public class TradeController {
                     notes);
 
             journal.getTrades().add(trade);
-            journal.setActualCapital(journal.getActualCapital() + trade.getProfitLoss());
+            journal.setActualCapital(journal.getActualCapital() + getProfitLossValue(profitLossClean));
         }
         FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();

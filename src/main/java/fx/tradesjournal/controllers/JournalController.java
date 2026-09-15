@@ -4,6 +4,7 @@ import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;

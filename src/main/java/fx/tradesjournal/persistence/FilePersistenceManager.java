@@ -1,8 +1,8 @@
 package fx.tradesjournal.persistence;
 
 import com.google.gson.Gson;
+
 import fx.tradesjournal.model.Journal;
-import fx.tradesjournal.model.Trade;
 
 import java.io.File;
 import java.io.FileReader;

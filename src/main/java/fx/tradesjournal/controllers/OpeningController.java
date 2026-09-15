@@ -5,6 +5,7 @@ import fx.tradesjournal.model.Currency;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Leverage;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;

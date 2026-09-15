@@ -1,0 +1,1 @@
+{"name":"MyTrades","initCapital":1000.0,"currency":"EUR","leverage":"L1_500","actualCapital":1089.12,"trades":[{"symbol":"EUR/USD","size":0.07,"action":"LONG","entryPrice":1.348034,"closePrice":1.028447,"profitLoss":89.1234,"dateTime":"2026-09-14 10:00","fees":0.0,"status":"CLOSED","notes":""}]}
