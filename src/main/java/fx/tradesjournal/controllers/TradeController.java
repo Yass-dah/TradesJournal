@@ -203,6 +203,7 @@ public class TradeController {
         Double takeProfitClean = getCleanValue(takeProfit);
 
         if(tradeToEdit != null){
+            double oldProfitLoss = (tradeToEdit.getProfitLoss() != null) ? tradeToEdit.getProfitLoss() : 0.0;
             tradeToEdit.setStatus(status);
             tradeToEdit.setSymbol(symbol);
             tradeToEdit.setAction(type);
@@ -215,6 +216,7 @@ public class TradeController {
             tradeToEdit.setStopLoss(stopLossClean);
             tradeToEdit.setTakeProfit(takeProfitClean);
             tradeToEdit.setNotes(notes);
+            journal.setActualCapital(journal.getActualCapital() - oldProfitLoss + tradeToEdit.getProfitLoss());
         } else {
             Trade trade = new Trade(status,
                     symbol,

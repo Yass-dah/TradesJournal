@@ -99,9 +99,9 @@
                         <VBox layoutX="14.0" layoutY="180.0" spacing="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
                             <children>
                                 <Label text="From:" textFill="#a0a0a0" />
-                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
+                                <DatePicker fx:id="fromDate" onAction="#handleDateFilterChange" prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
                                 <Label text="To:" textFill="#a0a0a0" />
-                                <DatePicker prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
+                                <DatePicker fx:id="toDate" onAction="#handleDateFilterChange" prefHeight="30.0" prefWidth="240.0" style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand" />
                             </children>
                         </VBox>
                     </children>

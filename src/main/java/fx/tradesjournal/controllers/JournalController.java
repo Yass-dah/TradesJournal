@@ -4,8 +4,9 @@ import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
 import fx.tradesjournal.persistence.FilePersistenceManager;
-import javafx.beans.property.Property;
 import javafx.collections.FXCollections;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -18,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class JournalController {
     @FXML private TableView<Trade> tradesTableView;
@@ -28,8 +30,11 @@ public class JournalController {
     @FXML private TableColumn<Trade, Double> stopLossColumn;
     @FXML private TableColumn<Trade, Double> takeProfitColumn;
     @FXML private TableColumn<Trade, String> statusColumn;
+    @FXML private DatePicker fromDate;
+    @FXML private DatePicker toDate;
 
     private Journal activeJournal;
+    private FilteredList<Trade> filteredTrades;
 
     @FXML
     private HBox titleBar;
@@ -61,7 +66,7 @@ public class JournalController {
     public void setJournal(Journal journal) {
         this.activeJournal = journal;
         if(this.activeJournal != null) {
-            populateTradesTable();
+            setupFilteredTable();
             journalIdentification.textProperty().bind(activeJournal.nameProperty());
             initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString());
             actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString());
@@ -108,7 +113,7 @@ public class JournalController {
         activeJournal.getTrades().remove(trade);
         activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
         FilePersistenceManager.saveJournal(activeJournal);
-        populateTradesTable();
+        handleDateFilterChange();
     }
 
     private void handleEditTrade(Trade trade) {
@@ -127,10 +132,22 @@ public class JournalController {
             modalStage.initStyle(StageStyle.UNDECORATED);
             modalStage.setScene(new Scene(addTradeRoot));
             modalStage.showAndWait();
-            refreshTradeTable();
+            handleDateFilterChange();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void setupFilteredTable() {
+        if (activeJournal == null || activeJournal.getTrades() == null) {
+            tradesTableView.getItems().clear();
+            return;
+        }
+
+        filteredTrades = new FilteredList<>(activeJournal.getObservableTrades(), p -> true);
+        SortedList<Trade> sortedTrades = new SortedList<>(filteredTrades);
+        sortedTrades.comparatorProperty().bind(tradesTableView.comparatorProperty());
+        tradesTableView.setItems(sortedTrades);
     }
 
     @FXML
@@ -168,10 +185,36 @@ public class JournalController {
             modalStage.initStyle(StageStyle.UNDECORATED);
             modalStage.setScene(new Scene(addTradeRoot));
             modalStage.showAndWait();
-            refreshTradeTable();
+            handleDateFilterChange();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    @FXML
+    private void handleDateFilterChange() {
+        if (filteredTrades == null) return;
+        LocalDate fromSelected = fromDate.getValue();
+        LocalDate toSelected = toDate.getValue();
+        filteredTrades.setPredicate(trade -> {
+            if (fromSelected == null && toSelected == null)
+                return true;
+
+            if (trade.getDateTime() == null || trade.getDateTime().trim().isEmpty())
+                return false;
+
+            LocalDate tradeDate;
+            try {
+                String datePart = trade.getDateTime().split(" ")[0];
+                tradeDate = LocalDate.parse(datePart);
+            } catch (Exception e) {
+                return false;
+            }
+
+            boolean afterOrEqualFrom = (fromSelected == null) || !tradeDate.isBefore(fromSelected);
+            boolean beforeOrEqualTo = (toSelected == null) || !tradeDate.isAfter(toSelected);
+            return afterOrEqualFrom && beforeOrEqualTo;
+        });
     }
 
     private void refreshTradeTable() {
