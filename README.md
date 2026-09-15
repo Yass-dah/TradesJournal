@@ -23,5 +23,7 @@ A JavaFX desktop application developed in MVC pattern designed for traders where
 
 <img width="436" height="579" alt="Screenshot (29)" src="https://github.com/user-attachments/assets/0b0e10f2-8928-428a-8a81-efe085639514" />
 
+<hr/>
+
 `(NOTE: the prices and values shown in the screenshots are for testing purposes only and may be inconsistent)`
 
