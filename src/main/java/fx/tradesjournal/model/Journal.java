@@ -24,7 +24,7 @@ public class Journal {
 
     public Journal(String name, double initCapital, Currency currency, Leverage leverage) {
         this.name = name;
-        this.initCapital = initCapital;
+        this.initCapital = roundCapital(initCapital);
         this.actualCapital = initCapital;
         this.currency = currency;
         this.leverage = leverage;
@@ -33,11 +33,15 @@ public class Journal {
 
     public Journal(String name, double initCapital, Currency currency, Leverage leverage, List<Trade> trades) {
         this.name = name;
-        this.initCapital = initCapital;
+        this.initCapital = roundCapital(initCapital);
         this.actualCapital = initCapital;
         this.currency = currency;
         this.leverage = leverage;
         this.trades = trades != null ? trades : new ArrayList<>();
+    }
+
+    private double roundCapital(double capital) {
+        return Math.round(capital * 100.0) / 100.0;
     }
 
     // Getters & Setters
@@ -61,7 +65,7 @@ public class Journal {
     }
 
     public void setActualCapital(double actualCapital) {
-        this.actualCapital = actualCapital;
+        this.actualCapital = roundCapital(actualCapital);
         if (this.actualCapitalProperty != null) {
             this.actualCapitalProperty.set(actualCapital);
         }
