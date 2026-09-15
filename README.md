@@ -12,8 +12,18 @@ A JavaFX desktop application developed in MVC pattern designed for traders where
 
 ### Opening & Creation view:
 
-<img width="534" height="305" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/86c55a93-736b-4d46-b5bc-76b9417b1892" />
-<img width="523" height="405" alt="Screenshot (27)" src="https://github.com/user-attachments/assets/c65caefd-a8ab-44fc-a0a1-ce2ece6256ef" />
+<img width="427" height="244" alt="Screenshot (30)" src="https://github.com/user-attachments/assets/86c55a93-736b-4d46-b5bc-76b9417b1892" />
+<img width="418" height="324" alt="Screenshot (27)" src="https://github.com/user-attachments/assets/c65caefd-a8ab-44fc-a0a1-ce2ece6256ef" />
+
+### Journal view:
+
+<img width="1119" height="747" alt="Screenshot (28)" src="https://github.com/user-attachments/assets/73c98ad8-0b83-4cef-ad6a-319cf3731832" />
+
+### Trade creation view:
+
+<img width="545" height="724" alt="Screenshot (29)" src="https://github.com/user-attachments/assets/0b0e10f2-8928-428a-8a81-efe085639514" />
+
+
 
 
 
