@@ -1,2 +1,9 @@
 # TradesJournal
-A trade journal developed in JavaFX(MVC pattern) where you can keep and monitor all your trades and see your stats
+A JavaFX desktop application developed in MVC pattern designed for traders where they can keep different journals, monitor & manage trades and risk management in Local Storage.
+
+## Technologies used
+- Java 21
+- JavaFX
+- Gson
+
+
