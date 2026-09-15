@@ -4,6 +4,7 @@ import fx.tradesjournal.FxApplication;
 import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
 import fx.tradesjournal.persistence.FilePersistenceManager;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -13,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,8 +29,8 @@ public class JournalController {
     @FXML private TableColumn<Trade, Double> sizeColumn;
     @FXML private TableColumn<Trade, String> actionColumn;
     @FXML private TableColumn<Trade, Double> openPriceColumn;
-    @FXML private TableColumn<Trade, Double> stopLossColumn;
-    @FXML private TableColumn<Trade, Double> takeProfitColumn;
+    @FXML private TableColumn<Trade, Double> closePriceColumn;
+    @FXML private TableColumn<Trade, Double> profitLossColumn;
     @FXML private TableColumn<Trade, String> statusColumn;
     @FXML private DatePicker fromDate;
     @FXML private DatePicker toDate;
@@ -52,8 +54,7 @@ public class JournalController {
     private Label actualCapital;
 
     @FXML
-    private Label pipsQt;
-
+    private Label tradesQt;
 
     public void populateTradesTable() {
         if (activeJournal.getTrades() != null) {
@@ -110,10 +111,11 @@ public class JournalController {
     }
 
     private void handleDeleteTrade(Trade trade) {
+        if(trade.getProfitLoss() != null)
+            activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
+        activeJournal.getObservableTrades().remove(trade);
         activeJournal.getTrades().remove(trade);
-        activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
         FilePersistenceManager.saveJournal(activeJournal);
-        handleDateFilterChange();
     }
 
     private void handleEditTrade(Trade trade) {
@@ -148,6 +150,7 @@ public class JournalController {
         SortedList<Trade> sortedTrades = new SortedList<>(filteredTrades);
         sortedTrades.comparatorProperty().bind(tradesTableView.comparatorProperty());
         tradesTableView.setItems(sortedTrades);
+        tradesQt.textProperty().bind(Bindings.size(filteredTrades).asString());
     }
 
     @FXML
@@ -156,9 +159,43 @@ public class JournalController {
         sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         openPriceColumn.setCellValueFactory(new PropertyValueFactory<>("entryPrice"));
-        stopLossColumn.setCellValueFactory(new PropertyValueFactory<>("stopLoss"));
-        takeProfitColumn.setCellValueFactory(new PropertyValueFactory<>("takeProfit"));
-        statusColumn.setCellValueFactory(new PropertyValueFactory<>("status"));
+        closePriceColumn.setCellValueFactory(new PropertyValueFactory<>("closePrice"));
+        profitLossColumn.setCellValueFactory(new PropertyValueFactory<>("profitLoss"));
+        profitLossColumn.setCellFactory(col -> new TableCell<Trade, Double>() {
+            @Override
+            protected void updateItem(Double item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(String.format("%.2f €", item));
+                setStyle(item >= 0 ? "-fx-text-fill: #28a745;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
+            }
+        });
+        statusColumn.setCellValueFactory(cdf -> new SimpleStringProperty(String.valueOf(cdf.getValue().getStatus())));
+        statusColumn.setCellFactory(col -> new TableCell<Trade, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                    return;
+                }
+
+                setText(item);
+                Trade t = getTableRow().getItem();
+                if (t == null) return;
+
+                if ("OPEN".equalsIgnoreCase(item))
+                    setStyle("-fx-text-fill: #0d6efd;-fx-font-weight: bold;");
+                else
+                    setStyle(t.getProfitLoss() >= 0 ? "-fx-text-fill: #28a745;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
+            }
+        });
         setupTableContextMenu();
     }
 
@@ -215,6 +252,13 @@ public class JournalController {
             boolean beforeOrEqualTo = (toSelected == null) || !tradeDate.isAfter(toSelected);
             return afterOrEqualFrom && beforeOrEqualTo;
         });
+    }
+
+    @FXML
+    private void clearDatePickers(){
+        fromDate.setValue(null);
+        toDate.setValue(null);
+        handleDateFilterChange();
     }
 
     private void refreshTradeTable() {

@@ -151,7 +151,7 @@ public class TradeController {
             statusLabel.setStyle("-fx-text-fill: #ffb74d; -fx-font-weight: bold;");
         } else {
             statusLabel.setText("OPEN");
-            statusLabel.setStyle("-fx-text-fill: #00e676; -fx-font-weight: bold;");
+            statusLabel.setStyle("-fx-text-fill: #0d6efd; -fx-font-weight: bold;");
         }
     }
 
