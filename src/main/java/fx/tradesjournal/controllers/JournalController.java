@@ -114,7 +114,6 @@ public class JournalController {
         if(trade.getProfitLoss() != null)
             activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
         activeJournal.getObservableTrades().remove(trade);
-        activeJournal.getTrades().remove(trade);
         FilePersistenceManager.saveJournal(activeJournal);
     }
 

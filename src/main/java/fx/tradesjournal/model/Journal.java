@@ -106,7 +106,7 @@ public class Journal {
             if (trades == null) {
                 trades = new ArrayList<>();
             }
-            observableTrades = FXCollections.observableArrayList(trades);
+            observableTrades = FXCollections.observableList(trades);
         }
         return observableTrades;
     }
