@@ -202,7 +202,7 @@
                     </VBox>
                     <VBox spacing="4.0" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.rowIndex="5">
                         <children>
-                            <Label text="Profit/Loss (€)" textFill="#a0a0a0">
+                            <Label text="Profit / Loss (€)" textFill="#a0a0a0">
                                 <font>
                                     <Font size="11.0" />
                                 </font>

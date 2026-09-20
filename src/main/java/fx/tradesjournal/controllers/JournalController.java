@@ -111,8 +111,16 @@ public class JournalController {
                 handleEditTrade(selectedTrade);
         });
 
+        MenuItem viewItem = new MenuItem("See Trade details");
+        viewItem.setOnAction(event -> {
+            Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
+            if (selectedTrade != null)
+                handleViewTrade(selectedTrade);
+        });
+
         contextMenu.getItems().add(editItem);
         contextMenu.getItems().add(deleteItem);
+        contextMenu.getItems().add(viewItem);
         tradesTableView.setRowFactory(tv -> {
             TableRow<Trade> row = new TableRow<>();
             row.contextMenuProperty().bind(javafx.beans.binding.Bindings.when(row.emptyProperty())
@@ -125,7 +133,7 @@ public class JournalController {
 
     private void handleDeleteTrade(Trade trade) {
         if(trade.getProfitLoss() != null)
-            activeJournal.setActualCapital(activeJournal.getActualCapital()-trade.getProfitLoss());
+            activeJournal.setActualCapital(activeJournal.getActualCapital()-(trade.getProfitLoss()-trade.getFees()));
         activeJournal.getObservableTrades().remove(trade);
         FilePersistenceManager.saveJournal(activeJournal);
     }
@@ -137,6 +145,28 @@ public class JournalController {
 
             TradeController tradeController = loader.getController();
             tradeController.setJournalAndTrade(activeJournal, trade);
+
+            Stage modalStage = new Stage();
+            Stage mainStage = (Stage) titleBar.getScene().getWindow();
+
+            modalStage.initOwner(mainStage);
+            modalStage.initModality(Modality.WINDOW_MODAL);
+            modalStage.initStyle(StageStyle.UNDECORATED);
+            modalStage.setScene(new Scene(addTradeRoot));
+            modalStage.showAndWait();
+            handleDateFilterChange();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void handleViewTrade(Trade trade){
+        try {
+            FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-details-view.fxml"));
+            Parent addTradeRoot = loader.load();
+
+            TradeReadOnlyController tradeRoController = loader.getController();
+            tradeRoController.setTradeToView(trade);
 
             Stage modalStage = new Stage();
             Stage mainStage = (Stage) titleBar.getScene().getWindow();

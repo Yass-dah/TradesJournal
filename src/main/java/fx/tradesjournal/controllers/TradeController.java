@@ -209,6 +209,7 @@ public class TradeController {
 
         if(tradeToEdit != null){
             double oldProfitLoss = getProfitLossValue(tradeToEdit.getProfitLoss());
+            double oldProfitLossNet = oldProfitLoss - tradeToEdit.getFees();
             tradeToEdit.setStatus(status);
             tradeToEdit.setSymbol(symbol);
             tradeToEdit.setAction(type);
@@ -221,7 +222,8 @@ public class TradeController {
             tradeToEdit.setStopLoss(stopLossClean);
             tradeToEdit.setTakeProfit(takeProfitClean);
             tradeToEdit.setNotes(notes);
-            journal.setActualCapital(journal.getActualCapital() - oldProfitLoss + getProfitLossValue(tradeToEdit.getProfitLoss()));
+            journal.setActualCapital(journal.getActualCapital() - oldProfitLossNet +
+                    (getProfitLossValue(tradeToEdit.getProfitLoss()) - tradeToEdit.getFees()));
         } else {
             Trade trade = new Trade(status,
                     symbol,
@@ -235,9 +237,8 @@ public class TradeController {
                     stopLossClean,
                     takeProfitClean,
                     notes);
-
             journal.getTrades().add(trade);
-            journal.setActualCapital(journal.getActualCapital() + getProfitLossValue(profitLossClean));
+            journal.setActualCapital(journal.getActualCapital() + (getProfitLossValue(profitLossClean) - trade.getFees()));
         }
         FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();
