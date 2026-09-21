@@ -91,6 +91,7 @@ public class JournalController {
                             .multiply(100)
                             .asString("%.2f%%")
             );
+            tradesQt.textProperty().bind(Bindings.size(activeJournal.getObservableTrades()).asString());
         }
     }
 
@@ -192,7 +193,6 @@ public class JournalController {
         SortedList<Trade> sortedTrades = new SortedList<>(filteredTrades);
         sortedTrades.comparatorProperty().bind(tradesTableView.comparatorProperty());
         tradesTableView.setItems(sortedTrades);
-        tradesQt.textProperty().bind(Bindings.size(filteredTrades).asString());
     }
 
     private void setupSectionHoverTracker() {
