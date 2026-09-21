@@ -17,7 +17,7 @@ A JavaFX desktop application developed in MVC pattern designed for traders where
 
 ### Journal view:
 
-<img width="783" height="522" alt="Screenshot (28)" src="https://github.com/user-attachments/assets/73c98ad8-0b83-4cef-ad6a-319cf3731832" />
+<img width="783" height="522" alt="Screenshot (31)" src="https://github.com/user-attachments/assets/e157930e-59cf-4be1-a171-379c3d3db6e8" />
 
 ### Trade creation view:
 
