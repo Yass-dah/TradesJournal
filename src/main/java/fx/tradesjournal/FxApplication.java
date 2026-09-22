@@ -6,6 +6,7 @@ import fx.tradesjournal.persistence.FilePersistenceManager;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -33,6 +34,7 @@ public class FxApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         JournalController journalController = fxmlLoader.getController();
         journalController.setJournal(FilePersistenceManager.loadJournal(journal));
+        primaryStage.hide();
         primaryStage.sizeToScene();
         primaryStage.setTitle("TradesJournal");
         primaryStage.setScene(scene);
