@@ -4,9 +4,8 @@ import fx.tradesjournal.model.Trade;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.time.LocalDate;
 
 public class TradeReadOnlyController {
     private Trade tradeToView;

@@ -24,6 +24,9 @@ public class TradeController {
     private HBox titleBar;
 
     @FXML
+    private Label formTitleLabel;
+
+    @FXML
     private Label statusLabel;
 
     @FXML
@@ -159,10 +162,6 @@ public class TradeController {
 
     private Double getCleanValue(String value) {
         return value == null || value.isEmpty() ? null : Double.parseDouble(value);
-    }
-
-    private double getProfitLossValue(Double value) {
-        return value == null ? 0.0 : value;
     }
 
     @FXML
