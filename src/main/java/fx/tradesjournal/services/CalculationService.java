@@ -16,6 +16,6 @@ public class CalculationService {
     }
 
     public static double deletedTrade(double capital, Trade trade) {
-        return capital - (getProfitLossValue(trade.getProfitLoss()) - trade.getFees());
+        return capital - (getProfitLossValue(trade.getProfitLoss()) + trade.getFees());
     }
 }
