@@ -3,6 +3,7 @@ package fx.tradesjournal.controllers;
 import fx.tradesjournal.model.*;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 
+import fx.tradesjournal.services.CalculationService;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -208,8 +209,7 @@ public class TradeController {
         Double takeProfitClean = getCleanValue(takeProfit);
 
         if(tradeToEdit != null){
-            double oldProfitLoss = getProfitLossValue(tradeToEdit.getProfitLoss());
-            double oldProfitLossNet = oldProfitLoss - tradeToEdit.getFees();
+            Trade oldTrade = tradeToEdit;
             tradeToEdit.setStatus(status);
             tradeToEdit.setSymbol(symbol);
             tradeToEdit.setAction(type);
@@ -222,8 +222,7 @@ public class TradeController {
             tradeToEdit.setStopLoss(stopLossClean);
             tradeToEdit.setTakeProfit(takeProfitClean);
             tradeToEdit.setNotes(notes);
-            journal.setActualCapital(journal.getActualCapital() - oldProfitLossNet +
-                    (getProfitLossValue(tradeToEdit.getProfitLoss()) - tradeToEdit.getFees()));
+            journal.setActualCapital(CalculationService.editedTrade(journal.getActualCapital(), oldTrade, tradeToEdit));
         } else {
             Trade trade = new Trade(status,
                     symbol,
@@ -238,7 +237,7 @@ public class TradeController {
                     takeProfitClean,
                     notes);
             journal.getTrades().add(trade);
-            journal.setActualCapital(journal.getActualCapital() + (getProfitLossValue(profitLossClean) - trade.getFees()));
+            journal.setActualCapital(CalculationService.addedTrade(journal.getActualCapital(), trade));
         }
         FilePersistenceManager.saveJournal(journal);
         ((Stage)titleBar.getScene().getWindow()).close();

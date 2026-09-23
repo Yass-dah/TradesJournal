@@ -5,6 +5,7 @@ import fx.tradesjournal.model.Journal;
 import fx.tradesjournal.model.Trade;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 
+import fx.tradesjournal.services.CalculationService;
 import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
@@ -134,7 +135,7 @@ public class JournalController {
 
     private void handleDeleteTrade(Trade trade) {
         if(trade.getProfitLoss() != null)
-            activeJournal.setActualCapital(activeJournal.getActualCapital()-(trade.getProfitLoss()-trade.getFees()));
+            activeJournal.setActualCapital(CalculationService.deletedTrade(activeJournal.getActualCapital(), trade));
         activeJournal.getObservableTrades().remove(trade);
         FilePersistenceManager.saveJournal(activeJournal);
     }
