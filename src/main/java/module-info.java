@@ -5,7 +5,10 @@ module fx.tradesjournal {
 
     opens fx.tradesjournal to javafx.fxml;
     opens fx.tradesjournal.model to com.google.gson, javafx.base;
+    opens fx.tradesjournal.services to org.junit.platform.commons;
 
+    exports fx.tradesjournal.model;
+    exports fx.tradesjournal.services;
     exports fx.tradesjournal;
     exports fx.tradesjournal.controllers;
     opens fx.tradesjournal.controllers to javafx.fxml;

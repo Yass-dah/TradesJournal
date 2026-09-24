@@ -22,6 +22,8 @@ public class Trade {
 
     private String notes;
 
+    public Trade(){}
+
     public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double size, double fees) {
         this.status = Status.OPEN;
         this.symbol = symbol;

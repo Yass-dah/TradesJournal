@@ -135,8 +135,7 @@ public class JournalController {
     }
 
     private void handleDeleteTrade(Trade trade) {
-        if(trade.getProfitLoss() != null)
-            activeJournal.setActualCapital(CalculationService.deletedTrade(activeJournal.getActualCapital(), trade));
+        activeJournal.setActualCapital(CalculationService.deletedTrade(activeJournal.getActualCapital(), trade));
         activeJournal.getObservableTrades().remove(trade);
         FilePersistenceManager.saveJournal(activeJournal);
     }
