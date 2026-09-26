@@ -1,4 +1,5 @@
 .gitinit.txt
+data/
 fxdocs/
 target/
 !.mvn/wrapper/maven-wrapper.jar
