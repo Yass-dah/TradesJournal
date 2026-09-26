@@ -4,51 +4,26 @@ import fx.tradesjournal.model.Trade;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class TradeReadOnlyController {
     private Trade tradeToView;
 
-    @FXML
-    private HBox titleBar;
+    @FXML private HBox titleBar;
+    @FXML private Label symbolLabel;
+    @FXML private Label typeLabel;
+    @FXML private Label statusLabel;
+    @FXML private Label entryDateTimeLabel;
+    @FXML private Label entryPriceLabel;
+    @FXML private Label exitPriceLabel;
+    @FXML private Label sizeLabel;
+    @FXML private Label feesLabel;
+    @FXML private Label stopLossLabel;
+    @FXML private Label takeProfitLabel;
+    @FXML private Label profitLossLabel;
+    @FXML private Label notesLabel;
 
-    @FXML
-    private Label symbolLabel;
-
-    @FXML
-    private Label typeLabel;
-
-    @FXML
-    private Label statusLabel;
-
-    @FXML
-    private Label entryDateTimeLabel;
-
-    @FXML
-    private Label entryPriceLabel;
-
-    @FXML
-    private Label exitPriceLabel;
-
-    @FXML
-    private Label sizeLabel;
-
-    @FXML
-    private Label feesLabel;
-
-    @FXML
-    private Label stopLossLabel;
-
-    @FXML
-    private Label takeProfitLabel;
-
-    @FXML
-    private Label profitLossLabel;
-
-    @FXML
-    private Label notesLabel;
-
+    // Setters
     public void setTradeToView(Trade tradeToView) {
         this.tradeToView = tradeToView;
         if(tradeToView != null)
@@ -70,6 +45,7 @@ public class TradeReadOnlyController {
         notesLabel.setText(tradeToView.getNotes() != null ? tradeToView.getNotes() : "");
     }
 
+    // FXML handlers
     @FXML
     private void handleClose(){
         Stage stage = (Stage)titleBar.getScene().getWindow();

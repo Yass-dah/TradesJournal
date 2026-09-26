@@ -13,12 +13,15 @@ public enum Leverage {
     private final String label;
     private final double value;
 
+    // Constructor
     Leverage(String label, double value) {
         this.label = label;
         this.value = value;
     }
 
+    // Getters
     public String getLabel() { return label; }
+
     public double getValue() { return value; }
 
     @Override

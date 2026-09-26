@@ -7,9 +7,10 @@ import fx.tradesjournal.persistence.FilePersistenceManager;
 
 import fx.tradesjournal.services.CalculationService;
 import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -20,13 +21,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 public class JournalController {
     @FXML private TableView<Trade> tradesTableView;
@@ -37,93 +36,72 @@ public class JournalController {
     @FXML private TableColumn<Trade, Double> closePriceColumn;
     @FXML private TableColumn<Trade, Double> profitLossColumn;
     @FXML private TableColumn<Trade, String> statusColumn;
-    @FXML private DatePicker fromDate;
-    @FXML private DatePicker toDate;
+    @FXML private DateFilterController dateFilterController;
     @FXML private Label mouseSectionLabel;
 
     private Journal activeJournal;
     private FilteredList<Trade> filteredTrades;
 
-    @FXML
-    private HBox titleBar;
+    @FXML private HBox titleBar;
+    @FXML private AnchorPane tradesTable;
+    @FXML private AnchorPane journalStats;
+    @FXML private HBox statusBar;
+    @FXML private Label journalIdentification;
+    @FXML private Label initialCapital;
+    @FXML private Label profitLossPercent;
+    @FXML private Label actualCapital;
+    @FXML private Label tradesQt;
 
-    @FXML
-    private AnchorPane tradesTable;
-
-    @FXML
-    private AnchorPane journalStats;
-
-    @FXML
-    private HBox statusBar;
-
-    @FXML
-    private Label journalIdentification;
-
-    @FXML
-    private Label initialCapital;
-
-    @FXML
-    private Label profitLossPercent;
-
-    @FXML
-    private Label actualCapital;
-
-    @FXML
-    private Label tradesQt;
-
-    public void populateTradesTable() {
-        if (activeJournal.getTrades() != null) {
-            tradesTableView.setItems(FXCollections.observableArrayList(activeJournal.getTrades()));
-            tradesTableView.refresh();
-        } else tradesTableView.getItems().clear();
+    // Bindings
+    private void bindProperties(){
+        journalIdentification.textProperty().bind(activeJournal.nameProperty());
+        initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString("%.2f €"));
+        actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString("%.2f €"));
+        profitLossPercent.textProperty().bind(
+                activeJournal.actualCapitalProperty()
+                        .subtract(activeJournal.initCapitalProperty())
+                        .divide(activeJournal.initCapitalProperty())
+                        .multiply(100)
+                        .asString("%.2f%%")
+        );
+        tradesQt.textProperty().bind(Bindings.size(activeJournal.getObservableTrades()).asString());
     }
 
     // Setters
     public void setJournal(Journal journal) {
         this.activeJournal = journal;
         if(this.activeJournal != null) {
+            bindProperties();
             setupFilteredTable();
-            journalIdentification.textProperty().bind(activeJournal.nameProperty());
-            initialCapital.textProperty().bind(activeJournal.initCapitalProperty().asString("%.2f €"));
-            actualCapital.textProperty().bind(activeJournal.actualCapitalProperty().asString("%.2f €"));
-            profitLossPercent.textProperty().bind(
-                    activeJournal.actualCapitalProperty()
-                            .subtract(activeJournal.initCapitalProperty())
-                            .divide(activeJournal.initCapitalProperty())
-                            .multiply(100)
-                            .asString("%.2f%%")
-            );
-            tradesQt.textProperty().bind(Bindings.size(activeJournal.getObservableTrades()).asString());
         }
+    }
+
+    // ContextMenu
+    private MenuItem createMenuItem(String s, EventHandler<ActionEvent> e) {
+        MenuItem item = new MenuItem(s);
+        item.setOnAction(e);
+        return item;
     }
 
     private void setupTableContextMenu() {
         ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem deleteItem = new MenuItem("Delete Trade");
-        deleteItem.setOnAction(event -> {
+        MenuItem deleteItem = createMenuItem("Delete", e -> {
             Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
-            if (selectedTrade != null)
-                handleDeleteTrade(selectedTrade);
+            if (selectedTrade != null) handleDeleteTrade(selectedTrade);
         });
 
-        MenuItem editItem = new MenuItem("Edit Trade");
-        editItem.setOnAction(event -> {
+        MenuItem editItem = createMenuItem("Edit", e -> {
             Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
-            if (selectedTrade != null)
-                handleEditTrade(selectedTrade);
+            if (selectedTrade != null) handleEditTrade(selectedTrade);
         });
 
-        MenuItem viewItem = new MenuItem("See Trade details");
-        viewItem.setOnAction(event -> {
+        MenuItem viewItem = createMenuItem("See Trade details", e -> {
             Trade selectedTrade = tradesTableView.getSelectionModel().getSelectedItem();
-            if (selectedTrade != null)
-                handleViewTrade(selectedTrade);
+            if (selectedTrade != null) handleViewTrade(selectedTrade);
         });
 
-        contextMenu.getItems().add(editItem);
-        contextMenu.getItems().add(deleteItem);
-        contextMenu.getItems().add(viewItem);
+        contextMenu.getItems().addAll(editItem, deleteItem, viewItem);
         tradesTableView.setRowFactory(tv -> {
             TableRow<Trade> row = new TableRow<>();
             row.contextMenuProperty().bind(javafx.beans.binding.Bindings.when(row.emptyProperty())
@@ -134,6 +112,20 @@ public class JournalController {
         });
     }
 
+    // Stage initializer
+    private void initializeModalStage(Parent root) {
+        Stage modalStage = new Stage();
+        Stage mainStage = (Stage) titleBar.getScene().getWindow();
+
+        modalStage.initOwner(mainStage);
+        modalStage.initModality(Modality.WINDOW_MODAL);
+        modalStage.initStyle(StageStyle.UNDECORATED);
+        modalStage.setScene(new Scene(root));
+        modalStage.showAndWait();
+        dateFilterController.handleDateFilterChange();
+    }
+
+    // Handlers
     private void handleDeleteTrade(Trade trade) {
         activeJournal.setActualCapital(CalculationService.deletedTrade(activeJournal.getActualCapital(), trade));
         activeJournal.getObservableTrades().remove(trade);
@@ -144,19 +136,9 @@ public class JournalController {
         try {
             FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-form-view.fxml"));
             Parent addTradeRoot = loader.load();
-
             TradeController tradeController = loader.getController();
             tradeController.setJournalAndTrade(activeJournal, trade);
-
-            Stage modalStage = new Stage();
-            Stage mainStage = (Stage) titleBar.getScene().getWindow();
-
-            modalStage.initOwner(mainStage);
-            modalStage.initModality(Modality.WINDOW_MODAL);
-            modalStage.initStyle(StageStyle.UNDECORATED);
-            modalStage.setScene(new Scene(addTradeRoot));
-            modalStage.showAndWait();
-            handleDateFilterChange();
+            initializeModalStage(addTradeRoot);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -166,36 +148,28 @@ public class JournalController {
         try {
             FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-details-view.fxml"));
             Parent addTradeRoot = loader.load();
-
             TradeReadOnlyController tradeRoController = loader.getController();
             tradeRoController.setTradeToView(trade);
-
-            Stage modalStage = new Stage();
-            Stage mainStage = (Stage) titleBar.getScene().getWindow();
-
-            modalStage.initOwner(mainStage);
-            modalStage.initModality(Modality.WINDOW_MODAL);
-            modalStage.initStyle(StageStyle.UNDECORATED);
-            modalStage.setScene(new Scene(addTradeRoot));
-            modalStage.showAndWait();
-            handleDateFilterChange();
+            initializeModalStage(addTradeRoot);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void setupFilteredTable() {
+    // Setup FilterTable
+    private void setupFilteredTable() {
         if (activeJournal == null || activeJournal.getTrades() == null) {
             tradesTableView.getItems().clear();
             return;
         }
-
         filteredTrades = new FilteredList<>(activeJournal.getObservableTrades(), p -> true);
         SortedList<Trade> sortedTrades = new SortedList<>(filteredTrades);
         sortedTrades.comparatorProperty().bind(tradesTableView.comparatorProperty());
         tradesTableView.setItems(sortedTrades);
+        dateFilterController.setFilteredTrades(filteredTrades);
     }
 
+    // Hover methods
     private void setupSectionHoverTracker() {
         registerSectionHover(titleBar, "Title Bar");
         registerSectionHover(tradesTable, "Trades Table");
@@ -212,6 +186,7 @@ public class JournalController {
         }
     }
 
+    // Initializer
     @FXML
     public void initialize() {
         setupSectionHoverTracker();
@@ -258,6 +233,7 @@ public class JournalController {
         setupTableContextMenu();
     }
 
+    // FXML handlers
     @FXML
     private void handleClose(){
         Stage stage = (Stage)titleBar.getScene().getWindow();
@@ -269,59 +245,11 @@ public class JournalController {
         try {
             FXMLLoader loader = new FXMLLoader(FxApplication.class.getResource("trade-form-view.fxml"));
             Parent addTradeRoot = loader.load();
-
             TradeController tradeController = loader.getController();
             tradeController.setJournal(activeJournal);
-
-            Stage modalStage = new Stage();
-            Stage mainStage = (Stage) titleBar.getScene().getWindow();
-
-            modalStage.initOwner(mainStage);
-            modalStage.initModality(Modality.WINDOW_MODAL);
-            modalStage.initStyle(StageStyle.UNDECORATED);
-            modalStage.setScene(new Scene(addTradeRoot));
-            modalStage.showAndWait();
-            handleDateFilterChange();
+            initializeModalStage(addTradeRoot);
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
-    }
-
-    @FXML
-    private void handleDateFilterChange() {
-        if (filteredTrades == null) return;
-        LocalDate fromSelected = fromDate.getValue();
-        LocalDate toSelected = toDate.getValue();
-        filteredTrades.setPredicate(trade -> {
-            if (fromSelected == null && toSelected == null)
-                return true;
-
-            if (trade.getDateTime() == null || trade.getDateTime().trim().isEmpty())
-                return false;
-
-            LocalDate tradeDate;
-            try {
-                String datePart = trade.getDateTime().split(" ")[0];
-                tradeDate = LocalDate.parse(datePart);
-            } catch (Exception e) {
-                return false;
-            }
-
-            boolean afterOrEqualFrom = (fromSelected == null) || !tradeDate.isBefore(fromSelected);
-            boolean beforeOrEqualTo = (toSelected == null) || !tradeDate.isAfter(toSelected);
-            return afterOrEqualFrom && beforeOrEqualTo;
-        });
-    }
-
-    @FXML
-    private void clearDatePickers(){
-        fromDate.setValue(null);
-        toDate.setValue(null);
-        handleDateFilterChange();
-    }
-
-    private void refreshTradeTable() {
-        tradesTableView.setItems(FXCollections.observableArrayList(activeJournal.getTrades()));
-        tradesTableView.refresh();
     }
 }

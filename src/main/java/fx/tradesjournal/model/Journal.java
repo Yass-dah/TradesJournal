@@ -20,6 +20,7 @@ public class Journal {
     private transient DoubleProperty actualCapitalProperty;
     private transient ObservableList<Trade> observableTrades;
 
+    // Constructors
     public Journal() {}
 
     public Journal(String name, double initCapital, Currency currency, Leverage leverage) {
@@ -40,6 +41,7 @@ public class Journal {
         this.trades = trades != null ? trades : new ArrayList<>();
     }
 
+    // Round method
     private double roundCapital(double capital) {
         return Math.round(capital * 100.0) / 100.0;
     }
@@ -51,9 +53,8 @@ public class Journal {
 
     public void setName(String name) {
         this.name = name;
-        if (this.nameProperty != null) {
+        if (this.nameProperty != null)
             this.nameProperty.set(name);
-        }
     }
 
     public double getInitCapital() {
@@ -66,9 +67,8 @@ public class Journal {
 
     public void setActualCapital(double actualCapital) {
         this.actualCapital = roundCapital(actualCapital);
-        if (this.actualCapitalProperty != null) {
+        if (this.actualCapitalProperty != null)
             this.actualCapitalProperty.set(actualCapital);
-        }
     }
 
     public Currency getCurrency() {
@@ -85,31 +85,27 @@ public class Journal {
 
     // Properties
     public StringProperty nameProperty() {
-        if (nameProperty == null) {
+        if(nameProperty == null)
             nameProperty = new SimpleStringProperty(name);
-        }
         return nameProperty;
     }
 
     public DoubleProperty initCapitalProperty() {
-        if (initCapitalProperty == null) {
+        if(initCapitalProperty == null)
             initCapitalProperty = new SimpleDoubleProperty(initCapital);
-        }
         return initCapitalProperty;
     }
 
     public DoubleProperty actualCapitalProperty() {
-        if (actualCapitalProperty == null) {
+        if(actualCapitalProperty == null)
             actualCapitalProperty = new SimpleDoubleProperty(actualCapital);
-        }
         return actualCapitalProperty;
     }
 
     public ObservableList<Trade> getObservableTrades() {
         if (observableTrades == null) {
-            if (trades == null) {
+            if (trades == null)
                 trades = new ArrayList<>();
-            }
             observableTrades = FXCollections.observableList(trades);
         }
         return observableTrades;

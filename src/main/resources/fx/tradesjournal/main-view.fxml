@@ -65,16 +65,13 @@
                        AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0"
                        AnchorPane.topAnchor="50.0">
                 <columns>
-                    <TableColumn fx:id="symbolColumn" prefWidth="75.0" text="Symbol"
-                                 style="-fx-font-weight: bold"/>
+                    <TableColumn fx:id="symbolColumn" prefWidth="75.0" text="Symbol" style="-fx-font-weight: bold"/>
                     <TableColumn fx:id="sizeColumn" prefWidth="60.0" text="Size"/>
                     <TableColumn fx:id="actionColumn" prefWidth="65.0" text="Action"/>
                     <TableColumn fx:id="openPriceColumn" text="Open Price"/>
                     <TableColumn fx:id="closePriceColumn" text="Close Price"/>
-                    <TableColumn fx:id="profitLossColumn" prefWidth="85.0" text="Profit/Loss"
-                                 style="-fx-font-weight: bold"/>
-                    <TableColumn fx:id="statusColumn" prefWidth="70.0" text="Status"
-                                 style="-fx-font-weight: bold"/>
+                    <TableColumn fx:id="profitLossColumn" prefWidth="85.0" text="Profit/Loss" style="-fx-font-weight: bold"/>
+                    <TableColumn fx:id="statusColumn" prefWidth="70.0" text="Status" style="-fx-font-weight: bold"/>
                 </columns>
                 <columnResizePolicy>
                     <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
@@ -114,24 +111,7 @@
             </Label>
             <Separator layoutX="14.0" layoutY="160.0" prefWidth="240.0" style="-fx-opacity: 0.2;"
                        AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0"/>
-            <VBox layoutX="14.0" layoutY="172.0" spacing="8.0" AnchorPane.leftAnchor="14.0"
-                  AnchorPane.rightAnchor="14.0">
-                <Label text="From:" textFill="#a0a0a0"/>
-                <DatePicker fx:id="fromDate" promptText="No date selected"
-                            onAction="#handleDateFilterChange" prefHeight="30.0" prefWidth="240.0"
-                            style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand"/>
-                <Label text="To:" textFill="#a0a0a0"/>
-                <DatePicker fx:id="toDate" promptText="No date selected" onAction="#handleDateFilterChange"
-                            prefHeight="30.0" prefWidth="240.0"
-                            style="-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 3; -fx-cursor: hand"/>
-                <Button mnemonicParsing="false" onAction="#clearDatePickers" prefWidth="240.0"
-                        style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;"
-                        text="Clear">
-                    <font>
-                        <Font name="System Bold" size="12.0"/>
-                    </font>
-                </Button>
-            </VBox>
+            <fx:include fx:id="dateFilter" source="date-filter-view.fxml"/>
             <Separator layoutX="14.0" layoutY="340.0" prefWidth="240.0" style="-fx-opacity: 0.2;"
                        AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0"/>
             <fx:include source="size-calculator-view.fxml"/>

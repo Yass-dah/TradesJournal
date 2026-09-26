@@ -22,10 +22,16 @@ public class Trade {
 
     private String notes;
 
+    // Constructors
     public Trade(){}
 
+    public Trade(Double profitLoss, double fees){
+        this.profitLoss = profitLoss;
+        this.fees = fees;
+    }
+
     public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, double size, double fees) {
-        this.status = Status.OPEN;
+        this.status = status;
         this.symbol = symbol;
         this.action = action;
         this.dateTime = dateTime;
@@ -35,7 +41,7 @@ public class Trade {
     }
 
     public Trade(Status status, String symbol, Action action, String dateTime, double entryPrice, Double closePrice, double size, double fees, Double stopLoss, Double takeProfit) {
-        this.status = Status.OPEN;
+        this.status = status;
         this.symbol = symbol;
         this.action = action;
         this.dateTime = dateTime;

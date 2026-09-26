@@ -23,38 +23,17 @@ import java.util.List;
 public class OpeningController {
     private FxApplication app;
 
-    @FXML
-    private VBox root;
-
-    @FXML
-    private HBox titleBar;
-
-    @FXML
-    private Label headerTitleLabel;
-
-    @FXML
-    private Button newJournalBtn;
-
-    @FXML
-    private VBox selectBox;
-
-    @FXML
-    private VBox createBox;
-
-    @FXML
-    private ComboBox<String> journals;
-
-    @FXML
-    private TextField journalNameField;
-
-    @FXML
-    private TextField initialCapitalField;
-
-    @FXML
-    private ComboBox<Currency> currencyField;
-
-    @FXML
-    private ComboBox<Leverage> leverageField;
+    @FXML private VBox root;
+    @FXML private HBox titleBar;
+    @FXML private Label headerTitleLabel;
+    @FXML private Button newJournalBtn;
+    @FXML private VBox selectBox;
+    @FXML private VBox createBox;
+    @FXML private ComboBox<String> journals;
+    @FXML private TextField journalNameField;
+    @FXML private TextField initialCapitalField;
+    @FXML private ComboBox<Currency> currencyField;
+    @FXML private ComboBox<Leverage> leverageField;
 
     // Setters
     public void setApp(FxApplication app) {
@@ -70,6 +49,20 @@ public class OpeningController {
     }
 
     // Checkers
+    private boolean checkCapitalField(String capital){
+        try {
+            double capitalSize = Double.parseDouble(capital.trim());
+            if (capitalSize <= 0) {
+                displayError(initialCapitalField, "Initial capital have to be > 0.");
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            displayError(initialCapitalField, "Initial capital have to be a valid number (e.g. 1000 or 1500.50).");
+            return false;
+        }
+        return true;
+    }
+
     private boolean checkJournalFields(String name, String capital, Currency currency, Leverage leverage){
         if (name == null || name.trim().isEmpty()) {
             displayError(journalNameField, "Journal's name can't be empty.");
@@ -91,31 +84,23 @@ public class OpeningController {
             return false;
         }
 
-        try {
-            double capitalSize = Double.parseDouble(capital.trim());
-            if (capitalSize <= 0) {
-                displayError(initialCapitalField, "Initial capital have to be > 0.");
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            displayError(initialCapitalField, "Initial capital have to be a valid number (e.g. 1000 or 1500.50).");
-            return false;
-        }
-        return true;
+        return checkCapitalField(capital);
     }
 
-    @FXML
-    private void handleClose() {
-        Stage stage = (Stage)titleBar.getScene().getWindow();
-        stage.close();
-    }
-
+    // Initializer
     @FXML
     public void initialize() {
         List<String> journalList = FilePersistenceManager.getJournalFiles();
         journals.getItems().addAll(journalList != null ? journalList : new ArrayList<>());
         currencyField.getItems().addAll(Currency.values());
         leverageField.getItems().addAll(Leverage.values());
+    }
+
+    // FXML handlers
+    @FXML
+    private void handleClose() {
+        Stage stage = (Stage)titleBar.getScene().getWindow();
+        stage.close();
     }
 
     @FXML

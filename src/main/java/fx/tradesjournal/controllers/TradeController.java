@@ -17,57 +17,25 @@ public class TradeController {
     private Journal journal;
     private Trade tradeToEdit;
 
-    @FXML
-    private VBox root;
+    @FXML private VBox root;
+    @FXML private HBox titleBar;
+    @FXML private Label formTitleLabel;
+    @FXML private Label statusLabel;
+    @FXML private ComboBox<String> symbolComboBox;
+    @FXML private ComboBox<Trade.Action> typeComboBox;
+    @FXML private DatePicker entryDatePicker;
+    @FXML private TextField entryTimeField;
+    @FXML private TextField entryPriceField;
+    @FXML private TextField exitPriceField;
+    @FXML private TextField sizeField;
+    @FXML private TextField feesField;
+    @FXML private TextField stopLossField;
+    @FXML private TextField takeProfitField;
+    @FXML private TextField profitLossField;
+    @FXML private TextArea notesArea;
+    @FXML private Label errorLabel;
 
-    @FXML
-    private HBox titleBar;
-
-    @FXML
-    private Label formTitleLabel;
-
-    @FXML
-    private Label statusLabel;
-
-    @FXML
-    private ComboBox<String> symbolComboBox;
-
-    @FXML
-    private ComboBox<Trade.Action> typeComboBox;
-
-    @FXML
-    private DatePicker entryDatePicker;
-
-    @FXML
-    private TextField entryTimeField;
-
-    @FXML
-    private TextField entryPriceField;
-
-    @FXML
-    private TextField exitPriceField;
-
-    @FXML
-    private TextField sizeField;
-
-    @FXML
-    private TextField feesField;
-
-    @FXML
-    private TextField stopLossField;
-
-    @FXML
-    private TextField takeProfitField;
-
-    @FXML
-    private TextField profitLossField;
-
-    @FXML
-    private TextArea notesArea;
-
-    @FXML
-    private Label errorLabel;
-
+    // Setters
     public void setJournal(Journal journal){
         this.journal = journal;
         this.tradeToEdit = null;
@@ -101,6 +69,7 @@ public class TradeController {
         notesArea.setText(tradeToEdit.getNotes() != null ? tradeToEdit.getNotes() : "");
     }
 
+    // Checkers
     private boolean checkMandatoryFields(String symbol, Trade.Action type, LocalDate entryDate, String entryTime,
                                          String entryPrice, String size, String fees) {
         if (symbol == null) {
@@ -150,6 +119,7 @@ public class TradeController {
         return true;
     }
 
+    // Updaters
     private void updateStatus(String text) {
         if (text != null && !text.trim().isEmpty()) {
             statusLabel.setText("CLOSED");
@@ -160,10 +130,12 @@ public class TradeController {
         }
     }
 
+    // Value cleaner
     private Double getCleanValue(String value) {
         return value == null || value.isEmpty() ? null : Double.parseDouble(value);
     }
 
+    // Initializer
     @FXML
     public void initialize() {
         symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
@@ -173,6 +145,7 @@ public class TradeController {
         });
     }
 
+    // FXML handlers
     @FXML
     private void handleCancel(){
         Stage stage = (Stage)titleBar.getScene().getWindow();
@@ -208,7 +181,7 @@ public class TradeController {
         Double takeProfitClean = getCleanValue(takeProfit);
 
         if(tradeToEdit != null){
-            Trade oldTrade = tradeToEdit;
+            Trade oldTrade = new Trade(tradeToEdit.getProfitLoss(), tradeToEdit.getFees());
             tradeToEdit.setStatus(status);
             tradeToEdit.setSymbol(symbol);
             tradeToEdit.setAction(type);
@@ -235,7 +208,7 @@ public class TradeController {
                     stopLossClean,
                     takeProfitClean,
                     notes);
-            journal.getTrades().add(trade);
+            journal.getObservableTrades().add(trade);
             journal.setActualCapital(CalculationService.addedTrade(journal.getActualCapital(), trade));
         }
         FilePersistenceManager.saveJournal(journal);
