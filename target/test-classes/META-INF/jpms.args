@@ -1,4 +1,0 @@
---patch-module
-fx.tradesjournal=_
---add-reads
-fx.tradesjournal=ALL-UNNAMED
