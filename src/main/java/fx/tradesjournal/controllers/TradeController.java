@@ -5,6 +5,7 @@ import fx.tradesjournal.persistence.FilePersistenceManager;
 
 import fx.tradesjournal.services.CalculationService;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class TradeController {
+    private double x, y;
     private Journal journal;
     private Trade tradeToEdit;
 
@@ -141,6 +143,9 @@ public class TradeController {
         symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
         typeComboBox.getItems().addAll(Trade.Action.LONG, Trade.Action.SHORT);
         exitPriceField.textProperty().addListener((obs, oldValue, newValue) -> {
+            updateStatus(newValue);
+        });
+        profitLossField.textProperty().addListener((obs, oldValue, newValue) -> {
             updateStatus(newValue);
         });
     }

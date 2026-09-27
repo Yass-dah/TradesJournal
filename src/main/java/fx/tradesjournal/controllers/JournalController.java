@@ -13,6 +13,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,6 +22,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -28,9 +31,12 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class JournalController {
+    private FxApplication app;
+    private double x, y;
+
     @FXML private TableView<Trade> tradesTableView;
+    @FXML private TableColumn<Trade, String> dateColumn;
     @FXML private TableColumn<Trade, String> symbolColumn;
-    @FXML private TableColumn<Trade, Double> sizeColumn;
     @FXML private TableColumn<Trade, String> actionColumn;
     @FXML private TableColumn<Trade, Double> openPriceColumn;
     @FXML private TableColumn<Trade, Double> closePriceColumn;
@@ -44,7 +50,9 @@ public class JournalController {
 
     @FXML private HBox titleBar;
     @FXML private AnchorPane tradesTable;
-    @FXML private AnchorPane journalStats;
+    @FXML private Pane journalStats;
+    @FXML private VBox dateFilter;
+    @FXML private VBox sizeCalculator;
     @FXML private HBox statusBar;
     @FXML private Label journalIdentification;
     @FXML private Label initialCapital;
@@ -68,6 +76,8 @@ public class JournalController {
     }
 
     // Setters
+    public void setApp(FxApplication app) { this.app = app; }
+
     public void setJournal(Journal journal) {
         this.activeJournal = journal;
         if(this.activeJournal != null) {
@@ -103,7 +113,13 @@ public class JournalController {
 
         contextMenu.getItems().addAll(editItem, deleteItem, viewItem);
         tradesTableView.setRowFactory(tv -> {
-            TableRow<Trade> row = new TableRow<>();
+            TableRow<Trade> row = new TableRow<>(){
+                @Override
+                protected void updateItem(Trade trade, boolean empty) {
+                    super.updateItem(trade, empty);
+                    setCursor(empty || trade == null ? Cursor.DEFAULT : Cursor.HAND);
+                }
+            };
             row.contextMenuProperty().bind(javafx.beans.binding.Bindings.when(row.emptyProperty())
                             .then((ContextMenu) null)
                             .otherwise(contextMenu)
@@ -173,7 +189,9 @@ public class JournalController {
     private void setupSectionHoverTracker() {
         registerSectionHover(titleBar, "Title Bar");
         registerSectionHover(tradesTable, "Trades Table");
-        registerSectionHover(journalStats, "Stats & Filters");
+        registerSectionHover(dateFilter, "Date Filter");
+        registerSectionHover(sizeCalculator, "Lot Size Calculator");
+        registerSectionHover(journalStats, "Stats");
         registerSectionHover(statusBar, "Status Bar");
     }
 
@@ -186,12 +204,24 @@ public class JournalController {
         }
     }
 
+    // Draggable window method
+    public void enableDrag(Node node){
+        node.setStyle("-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-width: 0 0 1 0;-fx-cursor: CLOSED_HAND;");
+        node.setOnMousePressed(e -> { x = e.getSceneX(); y = e.getSceneY(); });
+        node.setOnMouseDragged(e -> {
+            Stage s = (Stage) node.getScene().getWindow();
+            s.setX(e.getScreenX() - x);
+            s.setY(e.getScreenY() - y);
+        });
+    }
+
     // Initializer
     @FXML
     public void initialize() {
         setupSectionHoverTracker();
+        enableDrag(titleBar);
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("onlyDate"));
         symbolColumn.setCellValueFactory(new PropertyValueFactory<>("symbol"));
-        sizeColumn.setCellValueFactory(new PropertyValueFactory<>("size"));
         actionColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
         openPriceColumn.setCellValueFactory(new PropertyValueFactory<>("entryPrice"));
         closePriceColumn.setCellValueFactory(new PropertyValueFactory<>("closePrice"));
@@ -200,13 +230,16 @@ public class JournalController {
             @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
+                setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
                 if (empty || item == null) {
                     setText(null);
                     setStyle("");
                     return;
                 }
                 setText(String.format("%.2f €", item));
-                setStyle(item >= 0 ? "-fx-text-fill: #28a745;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
+                if(item > 0)
+                    setStyle("-fx-text-fill: #28a745;-fx-font-weight: bold;");
+                else setStyle(item == 0 ? "-fx-text-fill: #717171;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
             }
         });
         statusColumn.setCellValueFactory(cdf -> new SimpleStringProperty(String.valueOf(cdf.getValue().getStatus())));
@@ -214,6 +247,7 @@ public class JournalController {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
+                setAlignment(javafx.geometry.Pos.CENTER);
                 if (empty || item == null) {
                     setText(null);
                     setStyle("");
@@ -226,8 +260,12 @@ public class JournalController {
 
                 if ("OPEN".equalsIgnoreCase(item))
                     setStyle("-fx-text-fill: #0d6efd;-fx-font-weight: bold;");
-                else
-                    setStyle(t.getProfitLoss() >= 0 ? "-fx-text-fill: #28a745;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
+                else {
+                    if(t.getProfitLoss() > 0)
+                        setStyle( "-fx-text-fill: #28a745;-fx-font-weight: bold;");
+                    else
+                        setStyle(t.getProfitLoss() == 0 ? "-fx-text-fill: #717171;-fx-font-weight: bold;" : "-fx-text-fill: #dc3545;-fx-font-weight: bold;");
+                }
             }
         });
         setupTableContextMenu();
@@ -249,6 +287,15 @@ public class JournalController {
             tradeController.setJournal(activeJournal);
             initializeModalStage(addTradeRoot);
         } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    @FXML
+    private void handleOpeningRedirection(){
+        try {
+            app.opening();
+        } catch(IOException e){
             System.out.println(e.getMessage());
         }
     }

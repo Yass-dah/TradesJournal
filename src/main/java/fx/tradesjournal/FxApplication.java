@@ -18,21 +18,27 @@ public class FxApplication extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(FxApplication.class.getResource("opening-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
         primaryStage = stage;
-        OpeningController openingController = fxmlLoader.getController();
-        openingController.setApp(this);
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("TradesJournal");
+        opening();
+    }
+
+    public void opening() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(FxApplication.class.getResource("opening-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        OpeningController openingController = fxmlLoader.getController();
+        openingController.setApp(this);
         primaryStage.setScene(scene);
         primaryStage.show();
+        primaryStage.centerOnScreen();
     }
 
     public void journal(String journal) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FxApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         JournalController journalController = fxmlLoader.getController();
+        journalController.setApp(this);
         journalController.setJournal(FilePersistenceManager.loadJournal(journal));
         primaryStage.hide();
         primaryStage.sizeToScene();
@@ -41,6 +47,8 @@ public class FxApplication extends Application {
         primaryStage.show();
         primaryStage.centerOnScreen();
     }
+
+    public Stage getStage(){ return this.primaryStage; }
 
     public static void main(String[] args) {
         launch();

@@ -22,6 +22,7 @@ import java.util.List;
 
 public class OpeningController {
     private FxApplication app;
+    private String selectedJournal;
 
     @FXML private VBox root;
     @FXML private HBox titleBar;
@@ -105,6 +106,7 @@ public class OpeningController {
 
     @FXML
     private void showCreateMode() {
+        selectedJournal = journals.getValue();
         selectBox.setVisible(false);
         selectBox.setManaged(false);
         newJournalBtn.setVisible(false);
@@ -136,6 +138,7 @@ public class OpeningController {
         selectBox.setManaged(true);
         newJournalBtn.setVisible(true);
 
+        journals.setValue(selectedJournal);
         headerTitleLabel.setText("Welcome Back!");
     }
 
@@ -150,6 +153,11 @@ public class OpeningController {
             }
             showSelectMode();
         }
+    }
+
+    @FXML
+    private void resetError(){
+        journals.setStyle("-fx-background-color: #ffffff; -fx-border-color: #fbfbfb; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand");
     }
 
     @FXML

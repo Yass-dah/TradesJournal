@@ -61,6 +61,7 @@
                 <Insets top="15.0"/>
             </padding>
             <ComboBox fx:id="journals" prefHeight="32.0" prefWidth="366.0" promptText="Select Journal"
+                      onAction="#resetError"
                       style="-fx-background-color: #ffffff; -fx-border-color: #fbfbfb; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand"/>
             <Button mnemonicParsing="false" onAction="#submitJournal"
                     style="-fx-background-color: #0d6efd; -fx-text-fill: white; -fx-cursor: hand; -fx-background-radius: 4;"

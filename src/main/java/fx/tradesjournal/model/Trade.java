@@ -101,6 +101,12 @@ public class Trade {
         return dateTime;
     }
 
+    public String getOnlyDate() {
+        if (dateTime == null || dateTime.trim().isEmpty())
+            return "";
+        return dateTime.split(" ")[0];
+    }
+
     public double getFees() {
         return fees;
     }
