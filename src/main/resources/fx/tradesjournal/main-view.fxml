@@ -60,7 +60,7 @@
             </HBox>
             <TableView fx:id="tradesTableView" layoutX="14.0" layoutY="50.0" prefHeight="475.0"
                        prefWidth="600.0"
-                       style="-fx-selection-bar: silver;-fx-selection-bar-text-fill: black;-fx-selection-bar-non-focused: silver;-fx-background-color: #2d2d2d; -fx-border-color: #3d3d3d; -fx-border-radius: 4; -fx-table-cell-border-color: white;"
+                       style="-fx-selection-bar: silver;-fx-selection-bar-text-fill: black;-fx-selection-bar-non-focused: silver;-fx-border-color: #3d3d3d; -fx-border-radius: 4; -fx-table-cell-border-color: white;"
                        AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0"
                        AnchorPane.topAnchor="50.0">
                 <columns>

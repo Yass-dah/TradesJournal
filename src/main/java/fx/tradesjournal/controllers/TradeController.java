@@ -5,7 +5,6 @@ import fx.tradesjournal.persistence.FilePersistenceManager;
 
 import fx.tradesjournal.services.CalculationService;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -13,9 +12,10 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map;
 
 public class TradeController {
-    private double x, y;
     private Journal journal;
     private Trade tradeToEdit;
 
@@ -137,10 +137,31 @@ public class TradeController {
         return value == null || value.isEmpty() ? null : Double.parseDouble(value);
     }
 
+    // Symbols setter
+    protected static void populateSymbols(ComboBox<String> symbolComboBox) {
+        Map<String, List<String>> sections = DefaultSymbols.getSections();
+        sections.forEach((category, symbols) -> {
+            symbolComboBox.getItems().add(category);
+            symbolComboBox.getItems().addAll(symbols);
+        });
+        symbolComboBox.setCellFactory(lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                boolean isHeader = !empty && item != null && sections.containsKey(item);
+                setText(empty ? null : item);
+                setDisable(isHeader);
+                setStyle(isHeader
+                        ? "-fx-font-weight: bold; -fx-text-fill: black; -fx-background-color: #bdbdbd; -fx-padding: 6 0 2 8;"
+                        : "-fx-text-fill: black; -fx-padding: 3 0 3 15;");
+            }
+        });
+    }
+
     // Initializer
     @FXML
     public void initialize() {
-        symbolComboBox.getItems().addAll(DefaultSymbols.getAllSymbols());
+        populateSymbols(symbolComboBox);
         typeComboBox.getItems().addAll(Trade.Action.LONG, Trade.Action.SHORT);
         exitPriceField.textProperty().addListener((obs, oldValue, newValue) -> {
             updateStatus(newValue);

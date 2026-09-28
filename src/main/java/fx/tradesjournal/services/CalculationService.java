@@ -7,8 +7,12 @@ public class CalculationService {
         return value == null ? 0.0 : value;
     }
 
+    private static double getTradeNet(Trade trade) {
+        return getProfitLossValue(trade.getProfitLoss()) - trade.getFees();
+    }
+
     public static double addedTrade(double capital, Trade trade) {
-        return capital + (getProfitLossValue(trade.getProfitLoss()) - trade.getFees());
+        return capital + getTradeNet(trade);
     }
 
     public static double editedTrade(double capital, Trade oldTrade, Trade newTrade) {
@@ -16,6 +20,6 @@ public class CalculationService {
     }
 
     public static double deletedTrade(double capital, Trade trade) {
-        return capital - (getProfitLossValue(trade.getProfitLoss()) - trade.getFees());
+        return capital - getTradeNet(trade);
     }
 }
