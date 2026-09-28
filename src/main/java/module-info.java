@@ -2,6 +2,7 @@ module fx.tradesjournal {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.google.gson;
+    requires java.net.http;
 
     opens fx.tradesjournal to javafx.fxml;
     opens fx.tradesjournal.model to com.google.gson, javafx.base;
