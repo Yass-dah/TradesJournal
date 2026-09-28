@@ -6,7 +6,7 @@ import java.util.Map;
 public class DefaultSymbols {
     public static Map<String, List<String>> getSections() {
         return Map.of(
-                "FOREX", List.of("EUR/USD", "GBP/USD", "USD/JPY", "USD/CHF", "AUD/USD", "USD/CAD", "NZD/USD", "EUR/GBP"),
+                "FOREX", List.of("EUR", "USD", "GBP", "JPY", "CHF", "AUD", "CAD", "NZD"),
                 "STOCKS", List.of("AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "TSLA", "BRK.B", "UNH", "JNJ"),
                 "ETFs", List.of("SPY", "QQQ", "IWM", "VTI", "VOO", "EEM", "TLT", "GLD"),
                 "COMMODITIES", List.of("XAU/USD", "XAG/USD", "WTI", "BRENT", "NG", "COPPER"),
