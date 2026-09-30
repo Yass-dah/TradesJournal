@@ -36,12 +36,6 @@ public class FxApplication extends Application {
     }
 
     public void journal(String journal) throws IOException {
-        MarketDataService mds = new MarketDataService();
-        try {
-            mds.fetchForexRates();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
         FXMLLoader fxmlLoader = new FXMLLoader(FxApplication.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         JournalController journalController = fxmlLoader.getController();

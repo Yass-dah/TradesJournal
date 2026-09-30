@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CalculationServiceTest {
+public class CalculationServiceTest {
     @Test
     @DisplayName("Added profitable trade with fees = capital + Net")
     void addedProfitableTrade() {
