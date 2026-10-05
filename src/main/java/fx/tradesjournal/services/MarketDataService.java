@@ -7,6 +7,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,9 +26,11 @@ public class MarketDataService {
     }
 
     // Fetchers
-    private Double fetchForexRateByPair(String pair) throws Exception {
+    public Double fetchForexRateByPair(String pair) throws Exception {
         String url = FX_API_URL + DefaultSymbols.getCleanFxParameters(pair);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from Forex API: HTTP " + response.statusCode());
@@ -47,9 +50,12 @@ public class MarketDataService {
         return rates;
     }
 
-    private Double fetchStockPriceByName(String stock) throws Exception {
+    public Double fetchStockPriceByName(String stock) throws Exception {
         String url = YAHOO_API_URL + stock;
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "Mozilla/5.0").GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .header("User-Agent", "Mozilla/5.0")
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from Stocks API: HTTP " + response.statusCode());
@@ -72,9 +78,12 @@ public class MarketDataService {
         return prices;
     }
 
-    private Double fetchETFPriceByName(String ETF) throws Exception {
+    public Double fetchETFPriceByName(String ETF) throws Exception {
         String url = YAHOO_API_URL + ETF;
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "Mozilla/5.0").GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .header("User-Agent", "Mozilla/5.0")
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from ETFs API: HTTP " + response.statusCode());
@@ -97,9 +106,12 @@ public class MarketDataService {
         return prices;
     }
 
-    private Double fetchCommodityPriceByName(String commodity) throws Exception {
+    public Double fetchCommodityPriceByName(String commodity) throws Exception {
         String url = YAHOO_API_URL + DefaultSymbols.getCleanCommodity(commodity);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "Mozilla/5.0").GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .header("User-Agent", "Mozilla/5.0")
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from Commodities API: HTTP " + response.statusCode());
@@ -122,9 +134,12 @@ public class MarketDataService {
         return prices;
     }
 
-    private Double fetchIndexPriceByName(String index) throws Exception {
+    public Double fetchIndexPriceByName(String index) throws Exception {
         String url = YAHOO_API_URL + DefaultSymbols.getCleanIndex(index);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).header("User-Agent", "Mozilla/5.0").GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .header("User-Agent", "Mozilla/5.0")
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from Indices API: HTTP " + response.statusCode());
@@ -147,9 +162,11 @@ public class MarketDataService {
         return prices;
     }
 
-    private Double fetchCryptoPriceByName(String crypto) throws Exception {
+    public Double fetchCryptoPriceByName(String crypto) throws Exception {
         String url = CRYPTO_API_URL + DefaultSymbols.getCleanCrypto(crypto);
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url)).GET().build();
+        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(url))
+                .timeout(Duration.ofSeconds(3))
+                .GET().build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() != 200)
             throw new RuntimeException("Error retrieving live data from Cryptos API: HTTP " + response.statusCode());
@@ -166,5 +183,26 @@ public class MarketDataService {
             System.out.println(e.getMessage());
         }
         return prices;
+    }
+
+    public Double fetchPriceBySymbol(String symbol){
+        Double price = 0.0;
+        try {
+            if(DefaultSymbols.getSections().get(DefaultSymbols.categories[0]).contains(symbol))
+                price = fetchForexRateByPair(symbol);
+            else if(DefaultSymbols.getSections().get(DefaultSymbols.categories[1]).contains(symbol))
+                price = fetchStockPriceByName(symbol);
+            else if(DefaultSymbols.getSections().get(DefaultSymbols.categories[2]).contains(symbol))
+                price = fetchETFPriceByName(symbol);
+            else if(DefaultSymbols.getSections().get(DefaultSymbols.categories[3]).contains(symbol))
+                price = fetchCommodityPriceByName(symbol);
+            else if(DefaultSymbols.getSections().get(DefaultSymbols.categories[4]).contains(symbol))
+                price = fetchIndexPriceByName(symbol);
+            else if(DefaultSymbols.getSections().get(DefaultSymbols.categories[5]).contains(symbol))
+                price = fetchCryptoPriceByName(symbol);
+        } catch (Exception e) {
+            price = null;
+        }
+        return price;
     }
 }

@@ -12,6 +12,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -139,11 +140,14 @@ public class TradeController {
 
     // Symbols setter
     protected static void populateSymbols(ComboBox<String> symbolComboBox) {
-        Map<String, List<String>> sections = DefaultSymbols.getSections();
-        sections.forEach((category, symbols) -> {
-            symbolComboBox.getItems().add(category);
-            symbolComboBox.getItems().addAll(symbols);
-        });
+        Map<String, List<String>> sections = new LinkedHashMap<>(DefaultSymbols.getSections());
+        symbolComboBox.getItems().clear();
+        for(String category : DefaultSymbols.categories) {
+            if(DefaultSymbols.getSections().containsKey(category)) {
+                symbolComboBox.getItems().add(category);
+                symbolComboBox.getItems().addAll(sections.get(category));
+            }
+        };
         symbolComboBox.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {

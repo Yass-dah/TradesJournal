@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DefaultSymbols {
+    public static String[] categories = {"FOREX", "STOCKS", "ETFs", "COMMODITIES", "INDICES", "CRYPTO"};
+
     public static String getCleanFxParameters(String pair){
         if(pair == null)
             return "";
@@ -44,10 +46,27 @@ public class DefaultSymbols {
         return crypto.replace("/", "") + "T";
     }
 
+    public static String getCurrencyForSymbol(String symbol) {
+        if (symbol == null || symbol.isBlank()) return "USD";
+
+        if (symbol.contains("/")) {
+            String[] parts = symbol.split("/");
+            if (parts.length == 2)
+                return parts[1].toUpperCase();
+        }
+
+        return switch (symbol) {
+            case "GER40" -> "EUR";
+            case "UK100"  -> "GBP";
+            case "JP225"  -> "JPY";
+            default       -> "USD";
+        };
+    }
+
     public static Map<String, List<String>> getSections() {
         return Map.of(
                 "FOREX", List.of("EUR/USD", "EUR/GBP", "EUR/JPY", "EUR/CHF", "EUR/AUD", "EUR/CAD", "EUR/NZD",
-                                    "USD/GBP", "USD/JPY", "USD/CHF", "USD/CAD",
+                                    "USD/JPY", "USD/CHF", "USD/CAD",
                                     "GBP/JPY", "GBP/CHF", "GBP/AUD", "GBP/CAD", "GBP/NZD",
                                     "CHF/JPY",
                                     "AUD/USD", "AUD/JPY", "AUD/CHF", "AUD/CAD", "AUD/NZD",

@@ -3,6 +3,7 @@ package fx.tradesjournal.services;
 import fx.tradesjournal.model.Trade;
 
 public class CalculationService {
+    // Profit/Loss calculation methods
     private static double getProfitLossValue(Double value) {
         return value == null ? 0.0 : value;
     }

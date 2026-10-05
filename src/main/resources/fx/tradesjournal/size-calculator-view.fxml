@@ -43,6 +43,19 @@
                        style="-fx-background-color: #1e1e1e; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;"/>
         </HBox>
         <Separator layoutX="14.0" layoutY="340.0" style="-fx-opacity: 0.2;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+    <HBox alignment="CENTER_LEFT">
+        <VBox.margin>
+            <Insets top="4.0"/>
+        </VBox.margin>
+        <Label fx:id="symbolLabel" text="No symbol selected" textFill="#a0a0a0"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Label fx:id="symbolPriceLabel" textFill="white">
+            <font>
+                <Font name="System Bold" size="12.0"/>
+            </font>
+        </Label>
+    </HBox>
+    <Separator layoutX="14.0" layoutY="340.0" style="-fx-opacity: 0.2;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
         <HBox alignment="CENTER_LEFT">
             <VBox.margin>
                 <Insets top="4.0"/>
