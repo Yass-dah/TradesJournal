@@ -1,15 +1,15 @@
 package fx.tradesjournal.model;
 
 public enum Currency {
-    EUR("EUR (€)", "€"),
-    USD("USD ($)", "$"),
-    GBP("GBP (£)", "£"),
-    CHF("CHF (CHF)", "CHF"),
-    JPY("JPY (¥)", "¥"),
-    AUD("AUD ($)", "$"),
-    CAD("CAD ($)", "$"),
-    NZD("NZD ($)", "$"),
-    ZAR("ZAR (R)", "R");
+    EUR("EUR", "€"),
+    USD("USD", "$"),
+    GBP("GBP", "£"),
+    CHF("CHF", "CHF"),
+    JPY("JPY", "¥"),
+    AUD("AUD", "A$"),
+    CAD("CAD", "C$"),
+    NZD("NZD", "NZ$"),
+    ZAR("ZAR", "R");
 
     private final String label;
     private final String symbol;

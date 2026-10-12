@@ -185,6 +185,7 @@ public class MarketDataService {
         return prices;
     }
 
+    // Fetch handler
     public Double fetchPriceBySymbol(String symbol){
         Double price = 0.0;
         try {

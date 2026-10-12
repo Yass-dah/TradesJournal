@@ -6,6 +6,7 @@ import java.util.Map;
 public class DefaultSymbols {
     public static String[] categories = {"FOREX", "STOCKS", "ETFs", "COMMODITIES", "INDICES", "CRYPTO"};
 
+    // Getters for clean symbols
     public static String getCleanFxParameters(String pair){
         if(pair == null)
             return "";
@@ -46,6 +47,7 @@ public class DefaultSymbols {
         return crypto.replace("/", "") + "T";
     }
 
+    // Getter for symbol currency
     public static String getCurrencyForSymbol(String symbol) {
         if (symbol == null || symbol.isBlank()) return "USD";
 
@@ -57,12 +59,13 @@ public class DefaultSymbols {
 
         return switch (symbol) {
             case "GER40" -> "EUR";
-            case "UK100"  -> "GBP";
-            case "JP225"  -> "JPY";
-            default       -> "USD";
+            case "UK100" -> "GBP";
+            case "JP225" -> "JPY";
+            default -> "USD";
         };
     }
 
+    // Getter for symbols
     public static Map<String, List<String>> getSections() {
         return Map.of(
                 "FOREX", List.of("EUR/USD", "EUR/GBP", "EUR/JPY", "EUR/CHF", "EUR/AUD", "EUR/CAD", "EUR/NZD",
@@ -78,5 +81,11 @@ public class DefaultSymbols {
                 "INDICES", List.of("US500", "NAS100", "US30", "GER40", "UK100", "JP225"),
                 "CRYPTO", List.of("BTC/USD", "ETH/USD", "SOL/USD", "XRP/USD", "BNB/USD")
         );
+    }
+
+    public static String getCategoryForSymbol(String symbol) {
+        for (Map.Entry<String, List<String>> entry : getSections().entrySet())
+            if (entry.getValue().contains(symbol)) return entry.getKey();
+        return "";
     }
 }

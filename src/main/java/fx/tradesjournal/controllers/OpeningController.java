@@ -7,10 +7,7 @@ import fx.tradesjournal.model.Leverage;
 import fx.tradesjournal.persistence.FilePersistenceManager;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.HBox;
@@ -19,6 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OpeningController {
     private FxApplication app;
@@ -169,5 +167,17 @@ public class OpeningController {
                 System.out.println(e.getMessage());
             }
         } else journals.setStyle("-fx-background-color: #ff6363; -fx-border-color: red; -fx-border-radius: 1; -fx-text-fill: white; -fx-cursor: hand");
+    }
+
+    @FXML
+    private void handleDeleteJournal() {
+        String selectedJournal = journals.getSelectionModel().getSelectedItem();
+        if (selectedJournal == null)
+            return;
+        journals.getItems().remove(selectedJournal);
+        journals.getSelectionModel().clearSelection();
+        Journal deletedJournal = FilePersistenceManager.loadJournal(selectedJournal);
+        if(deletedJournal != null)
+            FilePersistenceManager.deleteJournalFile(deletedJournal);
     }
 }

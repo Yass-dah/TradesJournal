@@ -1,6 +1,8 @@
 package fx.tradesjournal.controllers;
 
 import fx.tradesjournal.model.DefaultSymbols;
+import fx.tradesjournal.model.Journal;
+import fx.tradesjournal.services.CalculationService;
 import fx.tradesjournal.services.MarketDataService;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -12,13 +14,19 @@ import javafx.scene.paint.Paint;
 
 public class SizeCalculatorController {
     private final MarketDataService marketDataService = new MarketDataService();
+    private Journal activeJournal;
 
     @FXML ComboBox<String> symbolField;
-    @FXML TextField sideRiskField;
-    @FXML TextField sideSlPipsField;
+    @FXML TextField riskField;
+    @FXML TextField slPipsField;
     @FXML Label symbolLabel;
     @FXML Label symbolPriceLabel;
-    @FXML Label sideLotResultLabel;
+    @FXML Label lotResultLabel;
+
+    // Setter
+    public void setJournal(Journal journal) {
+        this.activeJournal = journal;
+    }
 
     // Initializer
     @FXML
@@ -28,6 +36,18 @@ public class SizeCalculatorController {
             if(newValue != null) {
                 symbolLabel.setText("Loading...");
                 fetchPrice(newValue);
+                CalculationService.PositionSizeResult lotSize = CalculationService.calculateSize(
+                        activeJournal.getCurrency().getLabel(),
+                        activeJournal.getActualCapital(),
+                        Double.parseDouble(riskField.getText() == null || riskField.getText().isEmpty() ? "0.0" : riskField.getText()),
+                        Double.parseDouble(slPipsField.getText() == null || slPipsField.getText().isEmpty() ? "0.0" : slPipsField.getText()),
+                        new CalculationService.SymbolInfo(
+                                newValue,
+                                DefaultSymbols.getCategoryForSymbol(newValue),
+                                DefaultSymbols.getCurrencyForSymbol(newValue)),
+                        marketDataService.fetchPriceBySymbol(newValue),
+                        activeJournal.getLeverage().getValue());
+                lotResultLabel.setText(String.format("%.2f", lotSize.positionSize()));
             }
         });
     }

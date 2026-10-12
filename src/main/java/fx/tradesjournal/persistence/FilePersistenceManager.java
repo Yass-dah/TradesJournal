@@ -21,6 +21,12 @@ public class FilePersistenceManager {
         return file.exists() ? null : writeJournalToFile(journal, file);
     }
 
+    public static boolean deleteJournalFile(Journal journal) {
+        File folder = dataFolderExists();
+        File file = new File(folder, journal.getName() + ".json");
+        return file.delete();
+    }
+
     public static boolean saveJournal(Journal journal) {
         if (journal == null || journal.getName() == null)
             return false;

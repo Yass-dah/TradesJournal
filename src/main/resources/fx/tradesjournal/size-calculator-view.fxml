@@ -34,12 +34,12 @@
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="6.0">
             <Label text="Risk %:" textFill="#a0a0a0" minWidth="50.0"/>
-            <TextField fx:id="sideRiskField" text="1" prefHeight="26.0" prefWidth="140" HBox.hgrow="ALWAYS"
+            <TextField fx:id="riskField" text="1" prefHeight="26.0" prefWidth="140" HBox.hgrow="ALWAYS"
                        style="-fx-background-color: #1e1e1e; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;"/>
         </HBox>
         <HBox alignment="CENTER_LEFT" spacing="6.0">
             <Label text="SL Pips:" textFill="#a0a0a0" minWidth="50.0"/>
-            <TextField fx:id="sideSlPipsField" promptText="20" prefHeight="26.0" prefWidth="140" HBox.hgrow="ALWAYS"
+            <TextField fx:id="slPipsField" promptText="20" prefHeight="26.0" prefWidth="140" HBox.hgrow="ALWAYS"
                        style="-fx-background-color: #1e1e1e; -fx-text-fill: white; -fx-border-color: #3d3d3d; -fx-border-radius: 3;"/>
         </HBox>
         <Separator layoutX="14.0" layoutY="340.0" style="-fx-opacity: 0.2;" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" />
@@ -62,7 +62,7 @@
             </VBox.margin>
             <Label text="Lot Size:" textFill="#a0a0a0"/>
             <Pane HBox.hgrow="ALWAYS"/>
-            <Label fx:id="sideLotResultLabel" text="0.00" textFill="white">
+            <Label fx:id="lotResultLabel" text="0.00" textFill="white">
                 <font>
                     <Font name="System Bold" size="14.0"/>
                 </font>

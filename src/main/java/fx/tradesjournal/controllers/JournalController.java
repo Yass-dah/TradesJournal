@@ -43,6 +43,7 @@ public class JournalController {
     @FXML private TableColumn<Trade, Double> profitLossColumn;
     @FXML private TableColumn<Trade, String> statusColumn;
     @FXML private DateFilterController dateFilterController;
+    @FXML private SizeCalculatorController sizeCalculatorController;
     @FXML private Label mouseSectionLabel;
 
     private Journal activeJournal;
@@ -80,6 +81,7 @@ public class JournalController {
 
     public void setJournal(Journal journal) {
         this.activeJournal = journal;
+        sizeCalculatorController.setJournal(journal);
         if(this.activeJournal != null) {
             bindProperties();
             setupFilteredTable();
